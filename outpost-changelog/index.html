@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>The Outpost changelog in Ghost — email mockup</title>
+<title>The Outpost changelog in Ghost: email mockup</title>
 </head>
 <body>
 <style>
@@ -109,7 +109,7 @@ a{color:inherit}
 
 /* ---------- page header ---------- */
 .eyebrow{
-  font-size:11.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  font-size:14px;font-weight:500;
   color:var(--muted);margin:0 0 18px;
 }
 .eyebrow b{color:var(--ink);font-weight:500}
@@ -133,14 +133,14 @@ h1.display em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font
 .legend{display:flex;flex-direction:column;gap:14px;margin:28px 0 0;padding:0;list-style:none}
 .legend li{display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:baseline}
 .legend .chip{justify-self:start}
-.legend p{margin:0;font-size:15px;color:var(--muted)}
+.legend p{margin:0;font-size:15px;color:var(--muted);max-width:70ch}
 .legend p b{color:var(--ink);font-weight:500}
 
 /* ---------- section headers ---------- */
 .sec{margin:72px 0 0}
 .sec-label{
   display:flex;align-items:center;gap:14px;
-  font-size:11.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+  font-size:15px;font-weight:500;color:var(--muted);
   margin:0 0 8px;
 }
 .sec-label::after{content:"";flex:1;border-top:1px solid var(--line)}
@@ -227,7 +227,7 @@ h1.display em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font
 /* snippet C: category box */
 .catbox{border:1px solid #E4E0EA;border-radius:8px;padding:16px 20px 8px;margin:0 0 12px}
 .catbox-head{margin:0 0 8px}
-.catbox-count{font-size:12px;color:#8A8494;margin-left:8px}
+.catbox-count{font-size:12px;color:#6E6680;margin-left:8px}
 .catbox ul{margin:0;padding:0;list-style:none}
 .catbox li{padding:9px 2px;font-size:15px;line-height:1.6;border-top:1px solid #EFEBF3}
 .catbox li:first-child{border-top:0}
@@ -257,7 +257,7 @@ h1.display em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font
   display:flex;align-items:center;justify-content:center;margin-top:1px;
 }
 .key .chip{margin-top:4px}
-.key p{margin:0;font-size:15px;color:var(--muted)}
+.key p{margin:0;font-size:15px;color:var(--muted);max-width:70ch}
 .key p b{color:var(--ink);font-weight:500}
 @media (max-width:640px){
   .key li{grid-template-columns:26px 1fr;grid-template-rows:auto auto;row-gap:6px}
@@ -276,7 +276,7 @@ h1.display em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font
 .snip .use b{color:var(--ink);font-weight:500}
 .codeblock{position:relative;background:var(--code-bg);border-radius:8px}
 .codeblock pre{
-  margin:0;padding:20px 22px;overflow-x:auto;
+  margin:0;padding:42px 22px 20px;overflow-x:auto;
   font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;
   font-size:12.5px;line-height:1.65;color:var(--code-ink);
   tab-size:2;
@@ -303,18 +303,11 @@ h1.display em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font
 }
 
 /* ---------- fine print ---------- */
-.fine{margin:28px 0 0;padding:0;list-style:none;counter-reset:fp}
+.fine{margin:28px 0 0;padding:0;list-style:none}
 .fine li{
-  counter-increment:fp;
-  display:grid;grid-template-columns:34px 1fr;gap:12px;
   padding:16px 0;border-top:1px solid var(--line);
 }
 .fine li:last-child{border-bottom:1px solid var(--line)}
-.fine li::before{
-  content:counter(fp,decimal-leading-zero);
-  font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
-  font-size:12px;color:var(--muted);padding-top:3px;
-}
 .fine p{margin:0;font-size:15px;color:var(--muted);max-width:70ch}
 .fine b{color:var(--ink);font-weight:500}
 
@@ -327,11 +320,11 @@ h1.display em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font
   <header>
     <p class="eyebrow"><b>Outpost</b> · changelog email · Ghost feasibility check</p>
     <h1 class="display">A prettier <em>Changelog</em>, still all-Ghost</h1>
-    <p class="verdict">Ghost's email design won't get the changelog all the way to "pretty" on its own, and the sections that would help most — count chips, feature callouts, boxed category lists — are exactly the ones that are annoying to build in the editor every release. The fix is the same one that worked for The Weekly: three reusable HTML blocks, written by the companion <a href="generator.html">snippet generator</a> from plain form fields, pasted into the release post as <b>/html cards</b>. Nothing else changes: same Ghost site, same NASA hero images, same emoji-first items, same footer.</p>
+    <p class="verdict">Ghost's email design won't get the changelog all the way to "pretty" on its own, and the sections that would help most (count chips, feature callouts, boxed category lists) are exactly the ones that are annoying to build in the editor every release. The fix is the same one that worked for The Weekly: three reusable HTML blocks, written by the companion <a href="generator.html">snippet generator</a> from plain form fields, pasted into the release post as <b>/html cards</b>. Nothing else changes: same Ghost site, same NASA hero images, same emoji-first items, same footer.</p>
     <p class="verdict">Below is a hand-built simulation of Release 3.17 sent that way. Every region is numbered and mapped to what produces it, the exact block markup is inspectable in the kit, and the honest limits are in the fine print.</p>
     <ul class="legend" aria-label="Mechanism legend">
       <li><span class="chip chip-setting">Setting</span><p><b>Configured once</b> in Ghost Admin → Newsletters: sender, header, fonts, colors, footer text.</p></li>
-      <li><span class="chip chip-native">Native</span><p><b>Typed each release</b> in the editor — the title, the hero image card, the intro riff. Unchanged from how the changelog is written today.</p></li>
+      <li><span class="chip chip-native">Native</span><p><b>Typed each release</b> in the editor: the title, the hero image card, the intro riff. Unchanged from how the changelog is written today.</p></li>
       <li><span class="chip chip-snippet">Snippet</span><p><b>Pasted each release</b> as an HTML card, but written by the <a href="generator.html">snippet generator</a>, not by hand. Paste your item lines into its form and it returns finished markup with one copy button.</p></li>
     </ul>
     <hr class="rule">
@@ -339,7 +332,7 @@ h1.display em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font
 
   <section class="sec" aria-labelledby="sim-label">
     <h2 class="sec-label" id="sim-label">The simulation</h2>
-    <p class="sec-note">Release 3.17 in a light-mode inbox, real content. Regions 1–4 are exactly what the changelog email already does; <b>regions 5–7 are the new blocks</b>. The at-a-glance chips in region 5 aren't even typed — the generator counts them from the change lists automatically.</p>
+    <p class="sec-note">Release 3.17 in a light-mode inbox, real content. Regions 1–4 and 8 are exactly what the changelog email already does; <b>regions 5–7 are the new blocks</b>. The at-a-glance chips in region 5 aren't even typed: the generator counts them from the change lists automatically.</p>
 
     <div class="inbox">
       <p class="inbox-meta"><b>From:</b> Outpost &lt;hello@outpost.pub&gt; &nbsp;·&nbsp; <b>Subject:</b> Release 3.17: Maze of Sandy Channels</p>
@@ -383,7 +376,7 @@ h1.display em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font
             <div class="g-body">
               <p class="glance-lead">The CTA editor got a big refresh, plus a pile of obscure bug fixes.</p>
               <p class="glance-chips">
-                <span class="cat-chip" style="background:#8340B9;color:#FFFFFF">4 ADDED</span><span class="cat-chip" style="background:#F2A33C;color:#33230A">3 CHANGED</span><span class="cat-chip" style="background:#2E9E6B;color:#FFFFFF">5 FIXED</span>
+                <span class="cat-chip" style="background:#8340B9;color:#FFFFFF">4 ADDED</span><span class="cat-chip" style="background:#F2A33C;color:#33230A">3 CHANGED</span><span class="cat-chip" style="background:#2E9E6B;color:#04160D">5 FIXED</span>
               </p>
             </div>
           </div>
@@ -425,7 +418,7 @@ h1.display em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font
                 </ul>
               </div>
               <div class="catbox">
-                <p class="catbox-head"><span class="cat-chip" style="background:#2E9E6B;color:#FFFFFF;margin:0">FIXED</span><span class="catbox-count">5 items</span></p>
+                <p class="catbox-head"><span class="cat-chip" style="background:#2E9E6B;color:#04160D;margin:0">FIXED</span><span class="catbox-count">5 items</span></p>
                 <ul>
                   <li>🔒 Fixed a missing access check on gated PDFs</li>
                   <li>💸 Fixed a retention payment charging without the subscription's discount</li>
@@ -451,50 +444,47 @@ h1.display em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font
     </div>
 
     <ol class="key" aria-label="Region key">
-      <li><span class="num" aria-hidden="true">1</span><span class="chip chip-setting">Setting</span><p><b>The masthead is the newsletter's header</b> — set once in Ghost Admin → Newsletters (header image or styled title on the accent color). The sender name and address are settings too. Nothing to touch per release.</p></li>
-      <li><span class="num" aria-hidden="true">2</span><span class="chip chip-native">Native</span><p><b>The post title and byline are Ghost's, non-negotiable.</b> The "Release 3.17: Maze of Sandy Channels" convention already carries version, codename, and date — this part needs no help.</p></li>
+      <li><span class="num" aria-hidden="true">1</span><span class="chip chip-setting">Setting</span><p><b>The masthead is the newsletter's header</b>, set once in Ghost Admin → Newsletters (header image or styled title on the accent color). The sender name and address are settings too. Nothing to touch per release.</p></li>
+      <li><span class="num" aria-hidden="true">2</span><span class="chip chip-native">Native</span><p><b>The post title and byline are Ghost's, non-negotiable.</b> The "Release 3.17: Maze of Sandy Channels" convention already carries version, codename, and date; this part needs no help.</p></li>
       <li><span class="num" aria-hidden="true">3</span><span class="chip chip-native">Native</span><p><b>The NASA hero stays a normal image card</b> with its credit caption. Images and captions are the one place Ghost email needs no tricks at all. (Shown here as a placeholder gradient; in a real send it's the actual photo.)</p></li>
-      <li><span class="num" aria-hidden="true">4</span><span class="chip chip-native">Native</span><p><b>The intro riff stays hand-typed prose</b> — that voice is the changelog's charm and no form should generate it.</p></li>
-      <li><span class="num" aria-hidden="true">5</span><span class="chip chip-snippet">Snippet</span><p><b>Snippet A — at a glance.</b> Colored count chips, one per category. The generator counts them from the change lists automatically, so the chips can never disagree with the lists below them.</p></li>
-      <li><span class="num" aria-hidden="true">6</span><span class="chip chip-snippet">Snippet</span><p><b>Snippet B — highlight cards.</b> Purple-edged callouts for the one or two things that deserve more than a list line. Optional link and optional screenshot per card; empty fields simply stay out.</p></li>
-      <li><span class="num" aria-hidden="true">7</span><span class="chip chip-snippet">Snippet</span><p><b>Snippet C — category boxes.</b> The existing emoji-first item lines, unchanged, but boxed with a category chip, an item count, and hairline rules between items instead of a plain bullet list.</p></li>
-      <li><span class="num" aria-hidden="true">8</span><span class="chip chip-setting">Setting</span><p><b>Ghost's footer.</b> Unsubscribe and address lines are generated per-member and can't be redesigned — only the small custom footer text is editable.</p></li>
+      <li><span class="num" aria-hidden="true">4</span><span class="chip chip-native">Native</span><p><b>The intro riff stays hand-typed prose</b>: that voice is the changelog's charm and no form should generate it.</p></li>
+      <li><span class="num" aria-hidden="true">5</span><span class="chip chip-snippet">Snippet</span><p><b>Snippet A, at a glance.</b> Colored count chips, one per category. The generator counts them from the change lists automatically, so the chips can never disagree with the lists below them.</p></li>
+      <li><span class="num" aria-hidden="true">6</span><span class="chip chip-snippet">Snippet</span><p><b>Snippet B, highlight cards.</b> Purple-edged callouts for the one or two things that deserve more than a list line. Optional link and optional screenshot per card; empty fields simply stay out.</p></li>
+      <li><span class="num" aria-hidden="true">7</span><span class="chip chip-snippet">Snippet</span><p><b>Snippet C, category boxes.</b> The existing emoji-first item lines, unchanged, but boxed with a category chip, an item count, and hairline rules between items instead of a plain bullet list.</p></li>
+      <li><span class="num" aria-hidden="true">8</span><span class="chip chip-setting">Setting</span><p><b>Ghost's footer.</b> Unsubscribe and address lines are generated per-member and can't be redesigned; only the small custom footer text is editable.</p></li>
     </ol>
   </section>
 
   <section class="sec" aria-labelledby="kit-label">
     <h2 class="sec-label" id="kit-label">The snippet kit</h2>
-    <p class="sec-note">Email-safe HTML — tables and inline styles only, brand hex values baked in. These are the exact blocks the simulation above renders, and exactly what the <a href="generator.html">generator</a> writes from its form fields — shown here so the approach is inspectable. Category chip palette: <b>Added</b> #8340B9 · <b>Improved</b> #E052A5 · <b>Changed</b> #F2A33C · <b>Fixed</b> #2E9E6B · <b>Removed</b> #CD3824 · <b>Security</b> #1F2937.</p>
+    <p class="sec-note">Email-safe HTML: tables and inline styles only, brand hex values baked in. These are the exact blocks the simulation above renders, and exactly what the <a href="generator.html">generator</a> writes from its form fields, shown here so the approach is inspectable. Category chip palette: <b>Added</b> #8340B9 · <b>Improved</b> #E052A5 · <b>Changed</b> #F2A33C · <b>Fixed</b> #2E9E6B · <b>Removed</b> #CD3824 · <b>Security</b> #1F2937; white ink on Added, Removed, and Security, dark ink on the lighter three, so every chip passes AA contrast at chip size.</p>
 
-    <div class="install"><b>Per release:</b> fill out the <a href="generator.html">generator</a>, hit copy, then in the Ghost editor type <code>/html</code> and paste; click away and the card previews right in the editor. Fallback without the generator: save any block below as a Ghost snippet (<code>⋮</code> menu → <b>Create snippet</b>) and edit its text carefully. The changelog post doubles as the web page — the blocks render fine there too, or set the card's visibility to <b>email only</b> and keep native lists for web.</div>
+    <div class="install"><b>Per release:</b> fill out the <a href="generator.html">generator</a>, hit copy, then in the Ghost editor type <code>/html</code> and paste; click away and the card previews right in the editor. Fallback without the generator: save any block below as a Ghost snippet (<code>⋮</code> menu → <b>Create snippet</b>) and edit its text carefully. The changelog post doubles as the web page; the blocks render fine there too, or set the card's visibility to <b>email only</b> and keep native lists for web.</div>
 
     <div class="snip">
       <h3><span class="tag">A</span>At a glance</h3>
       <p class="use">Optional italic lead line, then one chip per category with its count. <b>In the generator these counts fill themselves in</b> from the change lists, so don't hand-edit the numbers.</p>
       <div class="codeblock">
         <button class="copy-btn" type="button">Copy</button>
-        <pre>&lt;p style="text-align:center;font-size:15.5px;font-style:italic;color:#6E6680;margin:0 0 12px;"&gt;The CTA editor got a big refresh, plus a pile of obscure bug fixes.&lt;/p&gt;
+        <pre>&lt;p style="text-align:center;font-family:Helvetica,Arial,sans-serif;font-size:15.5px;font-style:italic;color:#6E6680;word-break:break-word;margin:0 0 12px;"&gt;The CTA editor got a big refresh, plus a pile of obscure bug fixes.&lt;/p&gt;
 &lt;table role="presentation" width="100%" cellpadding="0" cellspacing="0"&gt;
-  &lt;tr&gt;&lt;td align="center" style="padding:2px 0 4px;"&gt;
-    &lt;span style="display:inline-block;background:#8340B9;color:#FFFFFF;font-size:11px;font-weight:bold;letter-spacing:1px;padding:3px 10px;border-radius:4px;"&gt;4 ADDED&lt;/span&gt;&amp;nbsp;&amp;nbsp;
-    &lt;span style="display:inline-block;background:#2E9E6B;color:#FFFFFF;font-size:11px;font-weight:bold;letter-spacing:1px;padding:3px 10px;border-radius:4px;"&gt;5 FIXED&lt;/span&gt;
-  &lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td align="center" style="padding:2px 0 4px;"&gt;&lt;span style="display:inline-block;background:#8340B9;color:#FFFFFF;font-family:Helvetica,Arial,sans-serif;font-size:11px;font-weight:bold;letter-spacing:1px;padding:3px 10px;border-radius:4px;"&gt;4 ADDED&lt;/span&gt;&amp;nbsp;&amp;nbsp;&lt;span style="display:inline-block;background:#2E9E6B;color:#04160D;font-family:Helvetica,Arial,sans-serif;font-size:11px;font-weight:bold;letter-spacing:1px;padding:3px 10px;border-radius:4px;"&gt;5 FIXED&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;/table&gt;</pre>
       </div>
     </div>
 
     <div class="snip">
       <h3><span class="tag">B</span>Highlight card</h3>
-      <p class="use">One card per headline feature. The link paragraph and screenshot image are <b>optional rows</b> — delete them when unused.</p>
+      <p class="use">One card per headline feature. The link paragraph and screenshot image are <b>optional rows</b>: delete them when unused.</p>
       <div class="codeblock">
         <button class="copy-btn" type="button">Copy</button>
-        <pre>&lt;h2 style="text-align:center;font-size:22px;margin:14px 0 18px;"&gt;Highlights&lt;/h2&gt;
+        <pre>&lt;h2 style="text-align:center;font-family:Helvetica,Arial,sans-serif;font-size:22px;margin:14px 0 18px;color:#17121C;"&gt;Highlights&lt;/h2&gt;
 
 &lt;table role="presentation" width="100%" cellpadding="0" cellspacing="0"&gt;
   &lt;tr&gt;&lt;td style="border:1px solid #E4E0EA;border-left:4px solid #8340B9;border-radius:8px;padding:18px 20px;"&gt;
-    &lt;p style="margin:0 0 6px;font-size:17px;font-weight:bold;color:#17121C;"&gt;✨ The CTA editor, refreshed&lt;/p&gt;
-    &lt;p style="margin:0;font-size:15px;line-height:1.6;color:#17121C;"&gt;Name your CTAs, get warned when one is pointed at the wrong audience, and watch the live preview keep up.&lt;/p&gt;
-    &lt;p style="margin:10px 0 0;"&gt;&lt;a href="https://outpost.pub/changelog/" style="font-size:14px;font-weight:bold;color:#8340B9;"&gt;Read the full release notes &amp;#8594;&lt;/a&gt;&lt;/p&gt;
+    &lt;p style="margin:0 0 6px;font-family:Helvetica,Arial,sans-serif;font-size:17px;font-weight:bold;color:#17121C;word-break:break-word;"&gt;✨ The CTA editor, refreshed&lt;/p&gt;
+    &lt;p style="margin:0;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#17121C;word-break:break-word;"&gt;Name your CTAs, get warned when one is pointed at the wrong audience, and watch the live preview keep up.&lt;/p&gt;
+    &lt;p style="margin:10px 0 0;"&gt;&lt;a href="https://outpost.pub/changelog/" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:bold;color:#8340B9;"&gt;Read the full release notes &amp;#8594;&lt;/a&gt;&lt;/p&gt;
   &lt;/td&gt;&lt;/tr&gt;
   &lt;tr&gt;&lt;td style="height:12px;line-height:12px;font-size:0;"&gt;&amp;nbsp;&lt;/td&gt;&lt;/tr&gt;
   <span class="cm">&lt;!-- duplicate the two rows above for each extra card --&gt;</span>
@@ -504,18 +494,15 @@ h1.display em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font
 
     <div class="snip">
       <h3><span class="tag">C</span>Category box</h3>
-      <p class="use">One box per category. Items are the same emoji-first lines the changelog uses today; the chip color follows the palette above. Each item is a <b>whole table row</b> — the hairline sits on every row's top edge except the first.</p>
+      <p class="use">One box per category. Items are the same emoji-first lines the changelog uses today; the chip color follows the palette above. Each item is a <b>whole table row</b>; the hairline sits on every row's top edge except the first.</p>
       <div class="codeblock">
         <button class="copy-btn" type="button">Copy</button>
         <pre>&lt;table role="presentation" width="100%" cellpadding="0" cellspacing="0"&gt;
   &lt;tr&gt;&lt;td style="border:1px solid #E4E0EA;border-radius:8px;padding:16px 20px 8px;"&gt;
-    &lt;p style="margin:0 0 8px;"&gt;
-      &lt;span style="display:inline-block;background:#2E9E6B;color:#FFFFFF;font-size:11px;font-weight:bold;letter-spacing:1px;padding:3px 10px;border-radius:4px;"&gt;FIXED&lt;/span&gt;
-      &lt;span style="font-size:12px;color:#8A8494;"&gt;&amp;nbsp;&amp;nbsp;5 items&lt;/span&gt;
-    &lt;/p&gt;
+    &lt;p style="margin:0 0 8px;"&gt;&lt;span style="display:inline-block;background:#2E9E6B;color:#04160D;font-family:Helvetica,Arial,sans-serif;font-size:11px;font-weight:bold;letter-spacing:1px;padding:3px 10px;border-radius:4px;"&gt;FIXED&lt;/span&gt;&lt;span style="font-family:Helvetica,Arial,sans-serif;font-size:12px;color:#6E6680;"&gt;&amp;nbsp;&amp;nbsp;5 items&lt;/span&gt;&lt;/p&gt;
     &lt;table role="presentation" width="100%" cellpadding="0" cellspacing="0"&gt;
-      &lt;tr&gt;&lt;td style="padding:9px 2px;font-size:15px;line-height:1.6;color:#17121C;"&gt;🔒 Fixed a missing access check on gated PDFs&lt;/td&gt;&lt;/tr&gt;
-      &lt;tr&gt;&lt;td style="padding:9px 2px;border-top:1px solid #EFEBF3;font-size:15px;line-height:1.6;color:#17121C;"&gt;💸 Fixed a retention payment charging without the subscription's discount&lt;/td&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;td style="padding:9px 2px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#17121C;word-break:break-word;"&gt;🔒 Fixed a missing access check on gated PDFs&lt;/td&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;td style="padding:9px 2px;border-top:1px solid #EFEBF3;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#17121C;word-break:break-word;"&gt;💸 Fixed a retention payment charging without the subscription's discount&lt;/td&gt;&lt;/tr&gt;
     &lt;/table&gt;
   &lt;/td&gt;&lt;/tr&gt;
 &lt;/table&gt;</pre>
@@ -527,16 +514,16 @@ h1.display em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font
     <h2 class="sec-label" id="fine-label">The fine print</h2>
     <ol class="fine">
       <li><p><b>This is a hand-built simulation, not a Ghost send.</b> It mirrors Ghost's email skeleton faithfully, but the deal isn't done until these blocks go into a real release post and test emails land in Gmail and Outlook.</p></li>
-      <li><p><b>The title block is Ghost's and stays where it is.</b> Fine here: the "Release X.Y: Codename" convention already does the masthead's job. The at-a-glance chips can't ride above the title — Ghost content always starts below the byline.</p></li>
-      <li><p><b>Raw HTML still sits under the hood.</b> The <a href="generator.html">generator</a> writes it from form fields, so in normal use nobody edits tables by hand and the markup is valid every time. Anyone who does hand-edit an HTML card can still break it silently — one deleted <code>&lt;/table&gt;</code> scrambles the layout with no warning before send. House rule: content changes go through the generator, and any hand-edit earns a test email.</p></li>
-      <li><p><b>Email clients get a vote.</b> Outlook on Windows squares off every rounded corner and ignores the left accent border's radius. Gmail clips messages over ~100KB — a sixteen-fix release with three blocks sits nowhere near that, but the generator meters it anyway. Gmail's dark mode recolors the chip backgrounds on its own terms; the palette was picked to keep contrast when it does.</p></li>
-      <li><p><b>The changelog post is also the web changelog.</b> These blocks render fine on the web too, but they'll look like the email, not like the theme. If that drift bothers anyone, set each HTML card to email-only visibility and keep the native lists for web — the cost is maintaining both.</p></li>
-      <li><p><b>Emoji are content, not markup.</b> The generator preserves whatever emoji leads each line and never adds its own. Keep writing them — they're doing the visual work bullets used to do.</p></li>
+      <li><p><b>The title block is Ghost's and stays where it is.</b> Fine here: the "Release X.Y: Codename" convention already does the masthead's job. The at-a-glance chips can't ride above the title, because Ghost content always starts below the byline.</p></li>
+      <li><p><b>Raw HTML still sits under the hood.</b> The <a href="generator.html">generator</a> writes it from form fields, so in normal use nobody edits tables by hand and the markup is valid every time. Anyone who does hand-edit an HTML card can still break it silently: one deleted <code>&lt;/table&gt;</code> scrambles the layout with no warning before send. House rule: content changes go through the generator, and any hand-edit earns a test email.</p></li>
+      <li><p><b>Email clients get a vote.</b> Outlook on Windows squares off every rounded corner and ignores the left accent border's radius. Gmail clips messages over ~100KB; a sixteen-fix release with three blocks sits nowhere near that, but the generator meters it anyway. Gmail's dark mode recolors the chip backgrounds on its own terms; the palette was picked to keep contrast when it does.</p></li>
+      <li><p><b>The changelog post is also the web changelog.</b> These blocks render fine on the web too, but they'll look like the email, not like the theme. If that drift bothers anyone, set each HTML card to email-only visibility and keep the native lists for web; the cost is maintaining both.</p></li>
+      <li><p><b>Emoji are content, not markup.</b> The generator preserves whatever emoji leads each line and never adds its own. Keep writing them; they're doing the visual work bullets used to do.</p></li>
       <li><p><b>Ceiling, stated plainly:</b> this approach lands chips, callout cards, and ruled boxes inside Ghost's own email frame. It does not land custom fonts, a redesigned title block, or layout outside the 600px column. If that ever becomes the ask, the answer changes from snippets to a custom email pipeline, which is a much bigger conversation.</p></li>
     </ol>
   </section>
 
-  <p class="endnote"><b>Built from outpost.pub's own accent tokens</b> — Outpost purple #8340B9 (dark-mode #AE6EE1), secondary pink #E052A5 — with real content from Release 3.17. Sensible next step: paste the three blocks into a draft release post on outpost.pub and send one real test email. The <a href="generator.html">snippet generator</a> writes these blocks from form fields so nobody edits HTML by hand.</p>
+  <p class="endnote"><b>Built from outpost.pub's own accent tokens</b>: Outpost purple #8340B9 (dark-mode #AE6EE1) and secondary pink #E052A5, with real content from Release 3.17. Sensible next step: paste the three blocks into a draft release post on outpost.pub and send one real test email. The <a href="generator.html">snippet generator</a> writes these blocks from form fields so nobody edits HTML by hand.</p>
 
 </div>
 

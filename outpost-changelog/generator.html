@@ -76,7 +76,7 @@ a{color:inherit}
 button{font-family:inherit}
 
 /* ---------- header ---------- */
-.eyebrow{font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+.eyebrow{font-size:13.5px;font-weight:500;color:var(--muted);margin:0 0 12px}
 .eyebrow b{color:var(--ink);font-weight:500}
 h1{font-weight:500;font-size:clamp(26px,4vw,36px);line-height:1.1;letter-spacing:-0.02em;margin:0 0 12px;text-wrap:balance}
 h1 em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400}
@@ -102,6 +102,7 @@ h1 em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:
 .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
 .btn-ghost:hover{color:var(--ink)}
 .btn.copied{background:var(--accent);color:var(--accent-ink)}
+.btn.copy-failed,.btn-mini.copy-failed{background:transparent;border:1px solid var(--danger);color:var(--danger)}
 .btn:disabled{opacity:.45;cursor:not-allowed}
 .meter{font-size:13px;color:var(--muted);margin-left:auto}
 .meter b{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
@@ -117,10 +118,6 @@ h1 em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:
   padding:20px 22px 22px;margin:0 0 22px;
 }
 .card-head{display:flex;align-items:baseline;gap:12px;margin:0 0 4px}
-.card-head .n{
-  font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
-  font-size:12px;color:var(--muted);
-}
 .card-head h2{font-size:17px;font-weight:500;margin:0;letter-spacing:-0.01em}
 .card-head .copy-sec{margin-left:auto}
 .btn-mini{
@@ -177,13 +174,13 @@ select{
   color:#17121C;
 }
 .email-paper .ghost-note{
-  font-size:11.5px;color:#8A8494;text-align:center;
+  font-size:11.5px;color:#6E6680;text-align:center;
   border:1px dashed #E2DDE8;border-radius:6px;padding:7px 10px;margin:0 0 20px;
   font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
 }
 .email-paper .ghost-note.bottom{margin:22px 0 0}
 #preview-body :first-child{margin-top:0}
-.empty-preview{color:#8A8494;font-size:14px;text-align:center;padding:30px 0}
+.empty-preview{color:#6E6680;font-size:14px;text-align:center;padding:30px 0}
 
 /* ---------- footer note ---------- */
 .foot{margin:40px 0 0;font-size:13.5px;color:var(--muted);max-width:74ch}
@@ -206,7 +203,8 @@ select{
   <div class="toolbar">
     <button class="btn btn-primary" id="copy-all" type="button">Copy full release</button>
     <button class="btn btn-ghost" id="clear-draft" type="button">Clear draft</button>
-    <p class="meter" id="meter">Full release: <b>0.0 KB</b> · Gmail clips whole emails near 100 KB</p>
+    <button class="btn btn-ghost" id="restore-draft" type="button" hidden>Restore cleared draft</button>
+    <p class="meter" id="meter">Full release: <b>0.0 KB</b></p>
     <span class="sr-status" role="status" aria-live="polite" id="copy-status"></span>
   </div>
 
@@ -215,18 +213,16 @@ select{
 
       <section class="card" aria-labelledby="sec1-h">
         <div class="card-head">
-          <span class="n" aria-hidden="true">01</span>
           <h2 id="sec1-h">At a glance</h2>
           <button class="btn-mini copy-sec" data-copy="glance" type="button">Copy section</button>
         </div>
-        <p class="hint">A row of colored count chips, <b>filled in automatically</b> from the change lists in section 03. Optionally add one italic lead line above it.</p>
+        <p class="hint">A row of colored count chips, <b>filled in automatically</b> from the Change lists section below. Optionally add one italic lead line above it.</p>
         <label for="glance-lead">Lead line (optional)</label>
         <input type="text" id="glance-lead" data-bind="glance.lead">
       </section>
 
       <section class="card" aria-labelledby="sec2-h">
         <div class="card-head">
-          <span class="n" aria-hidden="true">02</span>
           <h2 id="sec2-h">Highlights</h2>
           <button class="btn-mini copy-sec" data-copy="highlights" type="button">Copy section</button>
         </div>
@@ -239,7 +235,6 @@ select{
 
       <section class="card" aria-labelledby="sec3-h">
         <div class="card-head">
-          <span class="n" aria-hidden="true">03</span>
           <h2 id="sec3-h">Change lists</h2>
           <button class="btn-mini copy-sec" data-copy="changes" type="button">Copy section</button>
         </div>
@@ -275,11 +270,14 @@ select{
 
   var STORE_KEY = 'outpost-changelog-generator-draft-v1';
 
+  /* chip ink colors are AA-checked against their backgrounds at 11px:
+     dark ink on the lighter chips (Changed 7.3:1, Fixed 5.5:1, Improved 5.2:1),
+     white only on the dark ones (Added 6.2:1, Removed 5.0:1, Security 12+:1) */
   var CATS = {
     'Added':    { bg:'#8340B9', ink:'#FFFFFF' },
-    'Improved': { bg:'#E052A5', ink:'#FFFFFF' },
+    'Improved': { bg:'#E052A5', ink:'#2B0617' },
     'Changed':  { bg:'#F2A33C', ink:'#33230A' },
-    'Fixed':    { bg:'#2E9E6B', ink:'#FFFFFF' },
+    'Fixed':    { bg:'#2E9E6B', ink:'#04160D' },
     'Removed':  { bg:'#CD3824', ink:'#FFFFFF' },
     'Security': { bg:'#1F2937', ink:'#FFFFFF' }
   };
@@ -295,12 +293,12 @@ select{
           blurb: 'The editor you use to create CTAs like popups got a big refresh, with all new scaffolding underneath. Name your CTAs, get warned when one is pointed at the wrong audience, and watch the live preview keep up.',
           linkLabel: 'Read the full release notes',
           linkUrl: 'https://outpost.pub/changelog/',
-          imageUrl: ''
+          imageUrl: '', imageAlt: ''
         },
         {
           title: '♿ Assistive tech, first class',
           blurb: 'The Tip Jar and all of the Outpost CTA editors now work well for folks using assistive technology.',
-          linkLabel: '', linkUrl: '', imageUrl: ''
+          linkLabel: '', linkUrl: '', imageUrl: '', imageAlt: ''
         }
       ]
     },
@@ -313,12 +311,34 @@ select{
     }
   };
 
+  var BACKUP_KEY = STORE_KEY + '-backup';
+
   var state = load();
 
+  /* a stale or foreign value under the key must fall back to defaults,
+     never crash init; missing fields (e.g. imageAlt added later) fill in */
+  function normalize(obj){
+    if(!obj || typeof obj !== 'object'){ return null; }
+    if(!obj.glance || !obj.highlights || !obj.changes){ return null; }
+    if(!Array.isArray(obj.highlights.items) || !Array.isArray(obj.changes.boxes)){ return null; }
+    obj.glance.lead = String(obj.glance.lead || '');
+    obj.highlights.header = String(obj.highlights.header || '');
+    obj.highlights.items = obj.highlights.items.map(function(h){
+      return { title:String(h.title||''), blurb:String(h.blurb||''), linkLabel:String(h.linkLabel||''),
+               linkUrl:String(h.linkUrl||''), imageUrl:String(h.imageUrl||''), imageAlt:String(h.imageAlt||'') };
+    });
+    obj.changes.boxes = obj.changes.boxes.map(function(b){
+      return { cat: CATS[b.cat] ? b.cat : 'Added', lines:String(b.lines||'') };
+    });
+    return obj;
+  }
   function load(){
     try{
       var raw = localStorage.getItem(STORE_KEY);
-      if(raw){ return JSON.parse(raw); }
+      if(raw){
+        var parsed = normalize(JSON.parse(raw));
+        if(parsed){ return parsed; }
+      }
     }catch(e){}
     return JSON.parse(JSON.stringify(DEFAULTS));
   }
@@ -341,7 +361,7 @@ select{
   }
 
   var FONT = 'font-family:Helvetica,Arial,sans-serif;';
-  var TXT  = FONT + 'font-size:15px;line-height:1.6;color:#17121C;';
+  var TXT  = FONT + 'font-size:15px;line-height:1.6;color:#17121C;word-break:break-word;';
 
   /* ---------- generators (the canonical markup) ---------- */
   function chip(label, cat){
@@ -361,7 +381,7 @@ select{
     if(!boxes.length && !lead){ return ''; }
     var out = [];
     if(lead){
-      out.push('<p style="text-align:center;' + FONT + 'font-size:15.5px;font-style:italic;color:#6E6680;margin:0 0 ' + (boxes.length ? '12px' : '0') + ';">' + clean(lead) + '</p>');
+      out.push('<p style="text-align:center;' + FONT + 'font-size:15.5px;font-style:italic;color:#6E6680;word-break:break-word;margin:0 0 ' + (boxes.length ? '12px' : '0') + ';">' + clean(lead) + '</p>');
     }
     if(boxes.length){
       var chips = boxes.map(function(b){
@@ -384,10 +404,10 @@ select{
     items.forEach(function(h, i){
       var inner = '';
       if(h.imageUrl.trim()){
-        inner += '    <img src="' + esc(h.imageUrl.trim()) + '" width="100%" alt="" style="display:block;width:100%;height:auto;border-radius:6px;margin:0 0 14px;">\n';
+        inner += '    <img src="' + esc(h.imageUrl.trim()) + '" width="100%" alt="' + clean(h.imageAlt || '') + '" style="display:block;width:100%;height:auto;border-radius:6px;margin:0 0 14px;">\n';
       }
       if(h.title.trim()){
-        inner += '    <p style="margin:0 0 6px;' + FONT + 'font-size:17px;font-weight:bold;color:#17121C;">' + clean(h.title) + '</p>\n';
+        inner += '    <p style="margin:0 0 6px;' + FONT + 'font-size:17px;font-weight:bold;color:#17121C;word-break:break-word;">' + clean(h.title) + '</p>\n';
       }
       if(h.blurb.trim()){
         inner += '    <p style="margin:0;' + TXT + '">' + clean(h.blurb) + '</p>\n';
@@ -415,10 +435,11 @@ select{
         var rule = j === 0 ? '' : 'border-top:1px solid #EFEBF3;';
         return '      <tr><td style="padding:9px 2px;' + rule + TXT + '">' + clean(l) + '</td></tr>';
       }).join('\n');
+      var n = lines(b.lines).length;
       rows.push(
         '  <tr><td style="border:1px solid #E4E0EA;border-radius:8px;padding:16px 20px 8px;">\n' +
         '    <p style="margin:0 0 8px;">' + chip(esc(b.cat.toUpperCase()), b.cat) +
-        '<span style="' + FONT + 'font-size:12px;color:#8A8494;">&nbsp;&nbsp;' + lines(b.lines).length + ' items</span></p>\n' +
+        '<span style="' + FONT + 'font-size:12px;color:#6E6680;">&nbsp;&nbsp;' + n + (n === 1 ? ' item' : ' items') + '</span></p>\n' +
         '    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">\n' + items + '\n    </table>\n' +
         '  </td></tr>'
       );
@@ -442,7 +463,7 @@ select{
       var wrap = document.createElement('div');
       wrap.className = 'hl';
       wrap.innerHTML =
-        (state.highlights.items.length > 1 ? '<button class="rm" type="button" data-rm-hl="' + i + '">remove</button>' : '') +
+        (state.highlights.items.length > 1 ? '<button class="rm" type="button" data-rm-hl="' + i + '" aria-label="Remove highlight ' + (i + 1) + '">remove</button>' : '') +
         '<label for="hl-t-' + i + '">Title</label>' +
         '<input type="text" id="hl-t-' + i + '" data-hl-idx="' + i + '" data-field="title" placeholder="&#10024; The big thing">' +
         '<label for="hl-b-' + i + '">Blurb</label>' +
@@ -452,14 +473,18 @@ select{
           '<input type="text" id="hl-ll-' + i + '" data-hl-idx="' + i + '" data-field="linkLabel" placeholder="Read the docs" aria-label="Link label">' +
           '<input type="url" id="hl-lu-' + i + '" data-hl-idx="' + i + '" data-field="linkUrl" placeholder="https://&#8230;" aria-label="Link URL">' +
         '</div>' +
-        '<label for="hl-im-' + i + '">Image URL (optional)</label>' +
-        '<input type="url" id="hl-im-' + i + '" data-hl-idx="' + i + '" data-field="imageUrl" placeholder="https://outpost.pub/content/images/&#8230;">';
+        '<label for="hl-im-' + i + '">Image URL · alt text (optional)</label>' +
+        '<div class="hl-row2">' +
+          '<input type="url" id="hl-im-' + i + '" data-hl-idx="' + i + '" data-field="imageUrl" placeholder="https://outpost.pub/content/images/&#8230;" aria-label="Image URL">' +
+          '<input type="text" id="hl-ia-' + i + '" data-hl-idx="' + i + '" data-field="imageAlt" placeholder="What the screenshot shows" aria-label="Image alt text">' +
+        '</div>';
       hlEl.appendChild(wrap);
       wrap.querySelector('[data-field="title"]').value = h.title;
       wrap.querySelector('[data-field="blurb"]').value = h.blurb;
       wrap.querySelector('[data-field="linkLabel"]').value = h.linkLabel;
       wrap.querySelector('[data-field="linkUrl"]').value = h.linkUrl;
       wrap.querySelector('[data-field="imageUrl"]').value = h.imageUrl;
+      wrap.querySelector('[data-field="imageAlt"]').value = h.imageAlt || '';
     });
   }
 
@@ -470,7 +495,7 @@ select{
       wrap.className = 'box-group';
       var opts = CAT_NAMES.map(function(c){ return '<option>' + c + '</option>'; }).join('');
       wrap.innerHTML =
-        (state.changes.boxes.length > 1 ? '<button class="rm" type="button" data-rm-chg="' + i + '">remove</button>' : '') +
+        (state.changes.boxes.length > 1 ? '<button class="rm" type="button" data-rm-chg="' + i + '" aria-label="Remove ' + b.cat + ' category box">remove</button>' : '') +
         '<label for="cb-c-' + i + '">Category</label>' +
         '<select id="cb-c-' + i + '" data-chg-idx="' + i + '" data-field="cat">' + opts + '</select>' +
         '<label for="cb-l-' + i + '">Items</label>' +
@@ -500,8 +525,17 @@ select{
       previewEl.innerHTML = '<p class="empty-preview">Nothing yet. Fill in a section on the left.</p>';
     }
     var kb = (new Blob([html]).size / 1024);
-    meterEl.innerHTML = 'Full release: <b>' + kb.toFixed(1) + ' KB</b> · Gmail clips whole emails near 100 KB';
+    meterEl.innerHTML = 'Full release: <b>' + kb.toFixed(1) + ' KB</b> of blocks (Ghost’s wrapper adds its own) · Gmail clips near 100 KB';
+    document.querySelectorAll('[data-copy]').forEach(function(btn){
+      btn.disabled = !GEN[btn.getAttribute('data-copy')]();
+    });
+    document.getElementById('copy-all').disabled = !html;
     save();
+  }
+  function syncRestore(){
+    var has = false;
+    try{ has = !!localStorage.getItem(BACKUP_KEY); }catch(e){}
+    document.getElementById('restore-draft').hidden = !has;
   }
 
   /* ---------- events ---------- */
@@ -531,15 +565,20 @@ select{
   document.addEventListener('click', function(e){
     var t = e.target;
     if(t.id === 'add-hl'){
-      state.highlights.items.push({ title:'', blurb:'', linkLabel:'', linkUrl:'', imageUrl:'' });
+      state.highlights.items.push({ title:'', blurb:'', linkLabel:'', linkUrl:'', imageUrl:'', imageAlt:'' });
       renderHighlights(); refresh();
       var last = hlEl.querySelector('.hl:last-child input[data-field="title"]');
       if(last){ last.focus(); }
       return;
     }
     if(t.hasAttribute('data-rm-hl')){
-      state.highlights.items.splice(+t.getAttribute('data-rm-hl'), 1);
+      var hi = +t.getAttribute('data-rm-hl');
+      state.highlights.items.splice(hi, 1);
       renderHighlights(); refresh();
+      var hlCards = hlEl.querySelectorAll('.hl');
+      var hlNext = hlCards[Math.min(hi, hlCards.length - 1)];
+      (hlNext ? hlNext.querySelector('input') : document.getElementById('add-hl')).focus();
+      statusEl.textContent = 'Highlight removed';
       return;
     }
     if(t.id === 'add-chg'){
@@ -552,8 +591,13 @@ select{
       return;
     }
     if(t.hasAttribute('data-rm-chg')){
-      state.changes.boxes.splice(+t.getAttribute('data-rm-chg'), 1);
+      var ci = +t.getAttribute('data-rm-chg');
+      state.changes.boxes.splice(ci, 1);
       renderChanges(); refresh();
+      var chgCards = chgEl.querySelectorAll('.box-group');
+      var chgNext = chgCards[Math.min(ci, chgCards.length - 1)];
+      (chgNext ? chgNext.querySelector('select') : document.getElementById('add-chg')).focus();
+      statusEl.textContent = 'Category box removed';
       return;
     }
     if(t.hasAttribute('data-copy')){
@@ -566,16 +610,29 @@ select{
     }
     if(t.id === 'clear-draft'){
       if(t.getAttribute('data-armed')){
+        try{ localStorage.setItem(BACKUP_KEY, JSON.stringify(state)); }catch(err){}
         state = JSON.parse(JSON.stringify(DEFAULTS));
         state.glance.lead = '';
-        state.highlights.items = [{ title:'', blurb:'', linkLabel:'', linkUrl:'', imageUrl:'' }];
+        state.highlights.items = [{ title:'', blurb:'', linkLabel:'', linkUrl:'', imageUrl:'', imageAlt:'' }];
         state.changes.boxes.forEach(function(b){ b.lines=''; });
         try{ localStorage.removeItem(STORE_KEY); }catch(err){}
-        bindStatics(); renderHighlights(); renderChanges(); refresh();
+        bindStatics(); renderHighlights(); renderChanges(); refresh(); syncRestore();
+        statusEl.textContent = 'Draft cleared. Restore is available in the toolbar.';
         t.removeAttribute('data-armed'); t.textContent = 'Clear draft';
       } else {
         t.setAttribute('data-armed','1'); t.textContent = 'Really clear?';
         setTimeout(function(){ t.removeAttribute('data-armed'); t.textContent = 'Clear draft'; }, 2600);
+      }
+      return;
+    }
+    if(t.id === 'restore-draft'){
+      var backup = null;
+      try{ backup = normalize(JSON.parse(localStorage.getItem(BACKUP_KEY))); }catch(err){}
+      if(backup){
+        state = backup;
+        try{ localStorage.removeItem(BACKUP_KEY); }catch(err){}
+        bindStatics(); renderHighlights(); renderChanges(); refresh(); syncRestore();
+        statusEl.textContent = 'Draft restored';
       }
       return;
     }
@@ -584,13 +641,19 @@ select{
   var statusEl = document.getElementById('copy-status');
   function copyText(text, btn, doneLabel){
     if(!text){ return; }
+    var orig = btn.textContent;
+    function reset(){
+      btn.textContent = orig; btn.classList.remove('copied'); btn.classList.remove('copy-failed');
+      statusEl.textContent = '';
+    }
     navigator.clipboard.writeText(text).then(function(){
-      var orig = btn.textContent;
       btn.textContent = doneLabel; btn.classList.add('copied');
       statusEl.textContent = doneLabel;
-      setTimeout(function(){
-        btn.textContent = orig; btn.classList.remove('copied'); statusEl.textContent = '';
-      }, 1600);
+      setTimeout(reset, 1600);
+    }, function(){
+      btn.textContent = 'Copy failed'; btn.classList.add('copy-failed');
+      statusEl.textContent = 'Copy failed. Select the markup in the preview and copy it manually.';
+      setTimeout(reset, 3200);
     });
   }
 
@@ -599,6 +662,7 @@ select{
   renderHighlights();
   renderChanges();
   refresh();
+  syncRestore();
 })();
 </script>
 
