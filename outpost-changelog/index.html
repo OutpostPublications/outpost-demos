@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>The Outpost changelog in Ghost — email mockup</title>
+</head>
+<body>
+<style>
+
+:root{
+  --ground:#FAF9FB;
+  --surface:#FFFFFF;
+  --inbox-field:#F1EDF5;
+  --ink:#17121C;
+  --muted:#6C6478;
+  --line:#E2DDE8;
+  --accent:#8340B9;
+  --accent-soft:#E7D8F4;
+  --pine:#3B2452;
+  --code-bg:#2A1B3A;
+  --code-ink:#E2D8EC;
+  --code-accent:#C79BEA;
+  --chip-setting-bg:#3B2452;
+  --chip-setting-ink:#FAF9FB;
+  --chip-native-ink:#6C6478;
+  --chip-snippet-bg:#8340B9;
+  --chip-snippet-ink:#FFFFFF;
+  --marker-bg:#FFFFFF;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --ground:#14101A;
+    --surface:#1D1726;
+    --inbox-field:#181221;
+    --ink:#EBE6F2;
+    --muted:#A398B2;
+    --line:#322A40;
+    --accent:#AE6EE1;
+    --accent-soft:#3A2653;
+    --pine:#4A2F66;
+    --code-bg:#1B1226;
+    --code-ink:#D6CBE2;
+    --code-accent:#C79BEA;
+    --chip-setting-bg:#4A2F66;
+    --chip-setting-ink:#EBE6F2;
+    --chip-native-ink:#A398B2;
+    --chip-snippet-bg:#AE6EE1;
+    --chip-snippet-ink:#1B0E27;
+    --marker-bg:#1D1726;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#14101A;
+  --surface:#1D1726;
+  --inbox-field:#181221;
+  --ink:#EBE6F2;
+  --muted:#A398B2;
+  --line:#322A40;
+  --accent:#AE6EE1;
+  --accent-soft:#3A2653;
+  --pine:#4A2F66;
+  --code-bg:#1B1226;
+  --code-ink:#D6CBE2;
+  --code-accent:#C79BEA;
+  --chip-setting-bg:#4A2F66;
+  --chip-setting-ink:#EBE6F2;
+  --chip-native-ink:#A398B2;
+  --chip-snippet-bg:#AE6EE1;
+  --chip-snippet-ink:#1B0E27;
+  --marker-bg:#1D1726;
+}
+:root[data-theme="light"]{
+  --ground:#FAF9FB;
+  --surface:#FFFFFF;
+  --inbox-field:#F1EDF5;
+  --ink:#17121C;
+  --muted:#6C6478;
+  --line:#E2DDE8;
+  --accent:#8340B9;
+  --accent-soft:#E7D8F4;
+  --pine:#3B2452;
+  --code-bg:#2A1B3A;
+  --code-ink:#E2D8EC;
+  --code-accent:#C79BEA;
+  --chip-setting-bg:#3B2452;
+  --chip-setting-ink:#FAF9FB;
+  --chip-native-ink:#6C6478;
+  --chip-snippet-bg:#8340B9;
+  --chip-snippet-ink:#FFFFFF;
+  --marker-bg:#FFFFFF;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:system-ui,-apple-system,'Segoe UI',sans-serif;
+  font-weight:400;
+  font-size:16px;
+  line-height:1.65;
+}
+.wrap{max-width:960px;margin:0 auto;padding:56px 20px 96px}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+
+/* ---------- page header ---------- */
+.eyebrow{
+  font-size:11.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 18px;
+}
+.eyebrow b{color:var(--ink);font-weight:500}
+h1.display{
+  font-weight:500;font-size:clamp(30px,5.4vw,44px);line-height:1.12;
+  letter-spacing:-0.02em;margin:0 0 20px;text-wrap:balance;max-width:23ch;
+}
+h1.display em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;letter-spacing:0}
+.verdict{max-width:62ch;margin:0;font-size:17px;color:var(--ink)}
+.verdict + .verdict{margin-top:12px;color:var(--muted);font-size:15.5px}
+.rule{border:0;border-top:1px solid var(--line);margin:44px 0 0}
+
+/* ---------- mechanism chips ---------- */
+.chip{
+  display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.12em;
+  padding:3px 9px 2px;border-radius:3px;text-transform:uppercase;white-space:nowrap;
+}
+.chip-setting{background:var(--chip-setting-bg);color:var(--chip-setting-ink)}
+.chip-native{background:transparent;color:var(--chip-native-ink);border:1px solid var(--line)}
+.chip-snippet{background:var(--chip-snippet-bg);color:var(--chip-snippet-ink)}
+.legend{display:flex;flex-direction:column;gap:14px;margin:28px 0 0;padding:0;list-style:none}
+.legend li{display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:baseline}
+.legend .chip{justify-self:start}
+.legend p{margin:0;font-size:15px;color:var(--muted)}
+.legend p b{color:var(--ink);font-weight:500}
+
+/* ---------- section headers ---------- */
+.sec{margin:72px 0 0}
+.sec-label{
+  display:flex;align-items:center;gap:14px;
+  font-size:11.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+  margin:0 0 8px;
+}
+.sec-label::after{content:"";flex:1;border-top:1px solid var(--line)}
+.sec-note{margin:0 0 28px;font-size:15px;color:var(--muted);max-width:64ch}
+.sec-note b{color:var(--ink);font-weight:500}
+
+/* ---------- the email simulation ---------- */
+.inbox{
+  background:var(--inbox-field);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:clamp(14px,4vw,44px);
+}
+.inbox-meta{
+  max-width:600px;margin:0 auto 14px;
+  font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:11.5px;line-height:1.7;color:var(--muted);
+  overflow-wrap:anywhere;
+}
+.inbox-meta b{color:var(--ink);font-weight:600}
+.email{
+  position:relative;
+  max-width:600px;margin:0 auto;
+  background:#FFFFFF;
+  box-shadow:0 1px 3px rgba(23,18,28,.10),0 8px 32px rgba(23,18,28,.08);
+  border-radius:4px;overflow:visible;
+}
+.email-inner{overflow:hidden;border-radius:4px}
+/* every sim region gets a positioning context for its marker */
+.region{position:relative}
+.marker{
+  position:absolute;top:10px;right:-13px;z-index:3;
+  width:26px;height:26px;border-radius:50%;
+  background:var(--marker-bg);border:1.5px solid var(--pine);color:var(--ink);
+  font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:12.5px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+}
+@media (max-width:720px){ .marker{right:8px} }
+
+/* email regions use literal colors on purpose: this is a light-mode inbox,
+   independent of the page theme */
+.mast{background:#8340B9;padding:38px 44px 34px;color:#FFFFFF;text-align:center}
+.mast-word{
+  font-weight:700;font-size:40px;line-height:1.05;letter-spacing:-0.015em;margin:0;
+  font-family:system-ui,Helvetica,Arial,sans-serif;
+}
+.mast-tag{margin:6px 0 0;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:#E7D8F4}
+.ghost-zone{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:#17121C}
+.g-title{padding:36px 44px 0;text-align:center}
+.g-title h2{margin:0;font-size:28px;line-height:1.18;font-weight:700;letter-spacing:-0.01em}
+.g-meta{padding:10px 44px 0;text-align:center;font-size:13px;color:#6E6680}
+.g-meta a{color:#6E6680}
+.g-body{padding:28px 44px 0;font-size:16px;line-height:1.65}
+.g-body p{margin:0 0 16px}
+.g-img{padding:24px 44px 0}
+.g-hero{
+  width:100%;aspect-ratio:12/7;border-radius:2px;display:block;
+  background:
+    radial-gradient(ellipse 60% 50% at 68% 30%, #B98ADB 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 25% 75%, #4A2F66 0%, transparent 65%),
+    linear-gradient(160deg, #2A1B3A 0%, #6B3E96 55%, #1B1226 100%);
+}
+.g-img figcaption{font-size:13px;color:#6E6680;text-align:center;padding:8px 0 0}
+.g-center-h{
+  text-align:center;font-size:22px;font-weight:700;letter-spacing:-0.01em;
+  margin:34px 0 18px;
+}
+/* snippet A: at a glance */
+.glance-lead{text-align:center;font-size:15.5px;font-style:italic;color:#6E6680;margin:0 0 12px}
+.glance-chips{text-align:center;padding:2px 0 4px}
+.cat-chip{
+  display:inline-block;font-size:11px;font-weight:700;letter-spacing:1px;
+  padding:3px 10px;border-radius:4px;margin:0 4px 6px;
+}
+/* snippet B: highlight card */
+.hlcard{
+  border:1px solid #E4E0EA;border-left:4px solid #8340B9;border-radius:8px;
+  padding:18px 20px;margin:0 0 12px;
+}
+.hlcard-h{margin:0 0 6px;font-size:17px;font-weight:700}
+.hlcard p{margin:0;font-size:15px;line-height:1.6}
+.hlcard .hl-link{margin:10px 0 0;font-size:14px;font-weight:700}
+.hlcard .hl-link a{color:#8340B9}
+/* snippet C: category box */
+.catbox{border:1px solid #E4E0EA;border-radius:8px;padding:16px 20px 8px;margin:0 0 12px}
+.catbox-head{margin:0 0 8px}
+.catbox-count{font-size:12px;color:#8A8494;margin-left:8px}
+.catbox ul{margin:0;padding:0;list-style:none}
+.catbox li{padding:9px 2px;font-size:15px;line-height:1.6;border-top:1px solid #EFEBF3}
+.catbox li:first-child{border-top:0}
+.g-foot{
+  margin-top:34px;padding:26px 44px 34px;border-top:1px solid #E4E0EA;
+  text-align:center;font-size:12.5px;line-height:1.8;color:#6E6680;
+}
+.g-foot a{color:#6E6680}
+@media (max-width:600px){
+  .mast{padding:28px 24px 24px}
+  .mast-word{font-size:32px}
+  .g-title,.g-meta,.g-body,.g-img{padding-left:24px;padding-right:24px}
+  .g-foot{padding-left:24px;padding-right:24px}
+}
+
+/* ---------- annotation key ---------- */
+.key{margin:36px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:0}
+.key li{
+  display:grid;grid-template-columns:26px 108px 1fr;gap:14px;align-items:start;
+  padding:14px 0;border-top:1px solid var(--line);
+}
+.key li:last-child{border-bottom:1px solid var(--line)}
+.key .num{
+  width:26px;height:26px;border-radius:50%;
+  background:var(--marker-bg);border:1.5px solid var(--pine);
+  font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:12.5px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;margin-top:1px;
+}
+.key .chip{margin-top:4px}
+.key p{margin:0;font-size:15px;color:var(--muted)}
+.key p b{color:var(--ink);font-weight:500}
+@media (max-width:640px){
+  .key li{grid-template-columns:26px 1fr;grid-template-rows:auto auto;row-gap:6px}
+  .key .chip{grid-column:2}
+  .key p{grid-column:1 / -1}
+}
+
+/* ---------- snippet kit ---------- */
+.snip{margin:0 0 40px}
+.snip h3{font-size:19px;font-weight:500;margin:0 0 6px;letter-spacing:-0.01em}
+.snip h3 .tag{
+  font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  font-size:12px;font-weight:600;color:var(--muted);margin-right:10px;
+}
+.snip .use{margin:0 0 14px;font-size:15px;color:var(--muted);max-width:66ch}
+.snip .use b{color:var(--ink);font-weight:500}
+.codeblock{position:relative;background:var(--code-bg);border-radius:8px}
+.codeblock pre{
+  margin:0;padding:20px 22px;overflow-x:auto;
+  font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:12.5px;line-height:1.65;color:var(--code-ink);
+  tab-size:2;
+}
+.codeblock .cm{color:var(--code-accent);opacity:.75}
+.copy-btn{
+  position:absolute;top:10px;right:10px;
+  font-family:system-ui,sans-serif;font-size:11.5px;font-weight:500;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--code-ink);
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);
+  border-radius:5px;padding:5px 11px;cursor:pointer;
+}
+.copy-btn:hover{background:rgba(255,255,255,.16)}
+.copy-btn.done{color:var(--code-accent);border-color:var(--code-accent)}
+.install{
+  background:var(--surface);border:1px solid var(--line);border-radius:8px;
+  padding:18px 22px;margin:0 0 36px;font-size:15px;color:var(--muted);max-width:100%;
+}
+.install b{color:var(--ink);font-weight:500}
+.install code{
+  font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:13px;
+  background:var(--inbox-field);border:1px solid var(--line);border-radius:4px;padding:1px 6px;
+  color:var(--ink);
+}
+
+/* ---------- fine print ---------- */
+.fine{margin:28px 0 0;padding:0;list-style:none;counter-reset:fp}
+.fine li{
+  counter-increment:fp;
+  display:grid;grid-template-columns:34px 1fr;gap:12px;
+  padding:16px 0;border-top:1px solid var(--line);
+}
+.fine li:last-child{border-bottom:1px solid var(--line)}
+.fine li::before{
+  content:counter(fp,decimal-leading-zero);
+  font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  font-size:12px;color:var(--muted);padding-top:3px;
+}
+.fine p{margin:0;font-size:15px;color:var(--muted);max-width:70ch}
+.fine b{color:var(--ink);font-weight:500}
+
+.endnote{margin:64px 0 0;font-size:14px;color:var(--muted);max-width:64ch}
+.endnote b{color:var(--ink);font-weight:500}
+</style>
+
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow"><b>Outpost</b> · changelog email · Ghost feasibility check</p>
+    <h1 class="display">A prettier <em>Changelog</em>, still all-Ghost</h1>
+    <p class="verdict">Ghost's email design won't get the changelog all the way to "pretty" on its own, and the sections that would help most — count chips, feature callouts, boxed category lists — are exactly the ones that are annoying to build in the editor every release. The fix is the same one that worked for The Weekly: three reusable HTML blocks, written by the companion <a href="generator.html">snippet generator</a> from plain form fields, pasted into the release post as <b>/html cards</b>. Nothing else changes: same Ghost site, same NASA hero images, same emoji-first items, same footer.</p>
+    <p class="verdict">Below is a hand-built simulation of Release 3.17 sent that way. Every region is numbered and mapped to what produces it, the exact block markup is inspectable in the kit, and the honest limits are in the fine print.</p>
+    <ul class="legend" aria-label="Mechanism legend">
+      <li><span class="chip chip-setting">Setting</span><p><b>Configured once</b> in Ghost Admin → Newsletters: sender, header, fonts, colors, footer text.</p></li>
+      <li><span class="chip chip-native">Native</span><p><b>Typed each release</b> in the editor — the title, the hero image card, the intro riff. Unchanged from how the changelog is written today.</p></li>
+      <li><span class="chip chip-snippet">Snippet</span><p><b>Pasted each release</b> as an HTML card, but written by the <a href="generator.html">snippet generator</a>, not by hand. Paste your item lines into its form and it returns finished markup with one copy button.</p></li>
+    </ul>
+    <hr class="rule">
+  </header>
+
+  <section class="sec" aria-labelledby="sim-label">
+    <h2 class="sec-label" id="sim-label">The simulation</h2>
+    <p class="sec-note">Release 3.17 in a light-mode inbox, real content. Regions 1–4 are exactly what the changelog email already does; <b>regions 5–7 are the new blocks</b>. The at-a-glance chips in region 5 aren't even typed — the generator counts them from the change lists automatically.</p>
+
+    <div class="inbox">
+      <p class="inbox-meta"><b>From:</b> Outpost &lt;hello@outpost.pub&gt; &nbsp;·&nbsp; <b>Subject:</b> Release 3.17: Maze of Sandy Channels</p>
+      <div class="email">
+
+        <div class="region">
+          <span class="marker" aria-hidden="true">1</span>
+          <div class="email-inner">
+            <div class="mast">
+              <p class="mast-word">Outpost</p>
+              <p class="mast-tag">Changelog</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ghost-zone">
+          <div class="region">
+            <span class="marker" aria-hidden="true">2</span>
+            <div class="g-title"><h2>Release 3.17: Maze of Sandy Channels</h2></div>
+            <p class="g-meta">By Andrew Nikolaenko &nbsp;·&nbsp; 4 Aug 2026 &nbsp;·&nbsp; <a href="#" onclick="return false">View in browser</a></p>
+          </div>
+
+          <div class="region">
+            <span class="marker" aria-hidden="true">3</span>
+            <figure class="g-img" style="margin:0">
+              <span class="g-hero" role="img" aria-label="Overhead shot of islands and islets of Guinea-Bissau's Bijagós Archipelago"></span>
+              <figcaption>NASA/Lauren Dauphin, USGS</figcaption>
+            </figure>
+          </div>
+
+          <div class="region">
+            <span class="marker" aria-hidden="true">4</span>
+            <div class="g-body">
+              <p>Math is hard, sand can be wet, and forward isn't always the way you get through the island channels.</p>
+              <p>Anyhow, the editor you use to create CTAs like popups got a big refresh. We fixed a lot of obscure bugs, and then did some cool stuff like making sure the Tip Jar and all of the Outpost CTA editors work well for folks using assistive technology.</p>
+            </div>
+          </div>
+
+          <div class="region">
+            <span class="marker" aria-hidden="true">5</span>
+            <div class="g-body">
+              <p class="glance-lead">The CTA editor got a big refresh, plus a pile of obscure bug fixes.</p>
+              <p class="glance-chips">
+                <span class="cat-chip" style="background:#8340B9;color:#FFFFFF">4 ADDED</span><span class="cat-chip" style="background:#F2A33C;color:#33230A">3 CHANGED</span><span class="cat-chip" style="background:#2E9E6B;color:#FFFFFF">5 FIXED</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="region">
+            <span class="marker" aria-hidden="true">6</span>
+            <div class="g-body">
+              <p class="g-center-h">Highlights</p>
+              <div class="hlcard">
+                <p class="hlcard-h">✨ The CTA editor, refreshed</p>
+                <p>The editor you use to create CTAs like popups got a big refresh, with all new scaffolding underneath. Name your CTAs, get warned when one is pointed at the wrong audience, and watch the live preview keep up.</p>
+                <p class="hl-link"><a href="#" onclick="return false">Read the full release notes →</a></p>
+              </div>
+              <div class="hlcard">
+                <p class="hlcard-h">♿ Assistive tech, first class</p>
+                <p>The Tip Jar and all of the Outpost CTA editors now work well for folks using assistive technology.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="region">
+            <span class="marker" aria-hidden="true">7</span>
+            <div class="g-body">
+              <div class="catbox">
+                <p class="catbox-head"><span class="cat-chip" style="background:#8340B9;color:#FFFFFF;margin:0">ADDED</span><span class="catbox-count">4 items</span></p>
+                <ul>
+                  <li>🎯 Affinity filtering in the CTA picker</li>
+                  <li>🎁 New email templates for repeat-gift subscriptions</li>
+                  <li>👁️ Ghost editor previews now render the previewed reader level's CTA</li>
+                  <li>⚠️ Segment warnings when a CTA isn't appropriate for its audience</li>
+                </ul>
+              </div>
+              <div class="catbox">
+                <p class="catbox-head"><span class="cat-chip" style="background:#F2A33C;color:#33230A;margin:0">CHANGED</span><span class="catbox-count">3 items</span></p>
+                <ul>
+                  <li>📄 Events editor is now a full page instead of a row expander</li>
+                  <li>💳 Disabled Stripe Managed Payments on every Checkout Session</li>
+                  <li>💬 Stats and emails now say "clicked a link in email" so statistics are clearer</li>
+                </ul>
+              </div>
+              <div class="catbox">
+                <p class="catbox-head"><span class="cat-chip" style="background:#2E9E6B;color:#FFFFFF;margin:0">FIXED</span><span class="catbox-count">5 items</span></p>
+                <ul>
+                  <li>🔒 Fixed a missing access check on gated PDFs</li>
+                  <li>💸 Fixed a retention payment charging without the subscription's discount</li>
+                  <li>🔗 Fixed bold formatting stripping hyperlinks out in the email editor</li>
+                  <li>📬 Fixed autoresponder exclusions skipping complimentary members</li>
+                  <li>⏱️ Fixed TimePeriod unit conversion silently rewriting action delays (math is hard)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="region">
+            <span class="marker" aria-hidden="true">8</span>
+            <div class="g-foot">
+              Outpost · Changelog<br>
+              You're receiving this because you subscribed at outpost.pub.<br>
+              <a href="#" onclick="return false">Unsubscribe</a> &nbsp;·&nbsp; <a href="#" onclick="return false">View in browser</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <ol class="key" aria-label="Region key">
+      <li><span class="num" aria-hidden="true">1</span><span class="chip chip-setting">Setting</span><p><b>The masthead is the newsletter's header</b> — set once in Ghost Admin → Newsletters (header image or styled title on the accent color). The sender name and address are settings too. Nothing to touch per release.</p></li>
+      <li><span class="num" aria-hidden="true">2</span><span class="chip chip-native">Native</span><p><b>The post title and byline are Ghost's, non-negotiable.</b> The "Release 3.17: Maze of Sandy Channels" convention already carries version, codename, and date — this part needs no help.</p></li>
+      <li><span class="num" aria-hidden="true">3</span><span class="chip chip-native">Native</span><p><b>The NASA hero stays a normal image card</b> with its credit caption. Images and captions are the one place Ghost email needs no tricks at all. (Shown here as a placeholder gradient; in a real send it's the actual photo.)</p></li>
+      <li><span class="num" aria-hidden="true">4</span><span class="chip chip-native">Native</span><p><b>The intro riff stays hand-typed prose</b> — that voice is the changelog's charm and no form should generate it.</p></li>
+      <li><span class="num" aria-hidden="true">5</span><span class="chip chip-snippet">Snippet</span><p><b>Snippet A — at a glance.</b> Colored count chips, one per category. The generator counts them from the change lists automatically, so the chips can never disagree with the lists below them.</p></li>
+      <li><span class="num" aria-hidden="true">6</span><span class="chip chip-snippet">Snippet</span><p><b>Snippet B — highlight cards.</b> Purple-edged callouts for the one or two things that deserve more than a list line. Optional link and optional screenshot per card; empty fields simply stay out.</p></li>
+      <li><span class="num" aria-hidden="true">7</span><span class="chip chip-snippet">Snippet</span><p><b>Snippet C — category boxes.</b> The existing emoji-first item lines, unchanged, but boxed with a category chip, an item count, and hairline rules between items instead of a plain bullet list.</p></li>
+      <li><span class="num" aria-hidden="true">8</span><span class="chip chip-setting">Setting</span><p><b>Ghost's footer.</b> Unsubscribe and address lines are generated per-member and can't be redesigned — only the small custom footer text is editable.</p></li>
+    </ol>
+  </section>
+
+  <section class="sec" aria-labelledby="kit-label">
+    <h2 class="sec-label" id="kit-label">The snippet kit</h2>
+    <p class="sec-note">Email-safe HTML — tables and inline styles only, brand hex values baked in. These are the exact blocks the simulation above renders, and exactly what the <a href="generator.html">generator</a> writes from its form fields — shown here so the approach is inspectable. Category chip palette: <b>Added</b> #8340B9 · <b>Improved</b> #E052A5 · <b>Changed</b> #F2A33C · <b>Fixed</b> #2E9E6B · <b>Removed</b> #CD3824 · <b>Security</b> #1F2937.</p>
+
+    <div class="install"><b>Per release:</b> fill out the <a href="generator.html">generator</a>, hit copy, then in the Ghost editor type <code>/html</code> and paste; click away and the card previews right in the editor. Fallback without the generator: save any block below as a Ghost snippet (<code>⋮</code> menu → <b>Create snippet</b>) and edit its text carefully. The changelog post doubles as the web page — the blocks render fine there too, or set the card's visibility to <b>email only</b> and keep native lists for web.</div>
+
+    <div class="snip">
+      <h3><span class="tag">A</span>At a glance</h3>
+      <p class="use">Optional italic lead line, then one chip per category with its count. <b>In the generator these counts fill themselves in</b> from the change lists, so don't hand-edit the numbers.</p>
+      <div class="codeblock">
+        <button class="copy-btn" type="button">Copy</button>
+        <pre>&lt;p style="text-align:center;font-size:15.5px;font-style:italic;color:#6E6680;margin:0 0 12px;"&gt;The CTA editor got a big refresh, plus a pile of obscure bug fixes.&lt;/p&gt;
+&lt;table role="presentation" width="100%" cellpadding="0" cellspacing="0"&gt;
+  &lt;tr&gt;&lt;td align="center" style="padding:2px 0 4px;"&gt;
+    &lt;span style="display:inline-block;background:#8340B9;color:#FFFFFF;font-size:11px;font-weight:bold;letter-spacing:1px;padding:3px 10px;border-radius:4px;"&gt;4 ADDED&lt;/span&gt;&amp;nbsp;&amp;nbsp;
+    &lt;span style="display:inline-block;background:#2E9E6B;color:#FFFFFF;font-size:11px;font-weight:bold;letter-spacing:1px;padding:3px 10px;border-radius:4px;"&gt;5 FIXED&lt;/span&gt;
+  &lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;</pre>
+      </div>
+    </div>
+
+    <div class="snip">
+      <h3><span class="tag">B</span>Highlight card</h3>
+      <p class="use">One card per headline feature. The link paragraph and screenshot image are <b>optional rows</b> — delete them when unused.</p>
+      <div class="codeblock">
+        <button class="copy-btn" type="button">Copy</button>
+        <pre>&lt;h2 style="text-align:center;font-size:22px;margin:14px 0 18px;"&gt;Highlights&lt;/h2&gt;
+
+&lt;table role="presentation" width="100%" cellpadding="0" cellspacing="0"&gt;
+  &lt;tr&gt;&lt;td style="border:1px solid #E4E0EA;border-left:4px solid #8340B9;border-radius:8px;padding:18px 20px;"&gt;
+    &lt;p style="margin:0 0 6px;font-size:17px;font-weight:bold;color:#17121C;"&gt;✨ The CTA editor, refreshed&lt;/p&gt;
+    &lt;p style="margin:0;font-size:15px;line-height:1.6;color:#17121C;"&gt;Name your CTAs, get warned when one is pointed at the wrong audience, and watch the live preview keep up.&lt;/p&gt;
+    &lt;p style="margin:10px 0 0;"&gt;&lt;a href="https://outpost.pub/changelog/" style="font-size:14px;font-weight:bold;color:#8340B9;"&gt;Read the full release notes &amp;#8594;&lt;/a&gt;&lt;/p&gt;
+  &lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td style="height:12px;line-height:12px;font-size:0;"&gt;&amp;nbsp;&lt;/td&gt;&lt;/tr&gt;
+  <span class="cm">&lt;!-- duplicate the two rows above for each extra card --&gt;</span>
+&lt;/table&gt;</pre>
+      </div>
+    </div>
+
+    <div class="snip">
+      <h3><span class="tag">C</span>Category box</h3>
+      <p class="use">One box per category. Items are the same emoji-first lines the changelog uses today; the chip color follows the palette above. Each item is a <b>whole table row</b> — the hairline sits on every row's top edge except the first.</p>
+      <div class="codeblock">
+        <button class="copy-btn" type="button">Copy</button>
+        <pre>&lt;table role="presentation" width="100%" cellpadding="0" cellspacing="0"&gt;
+  &lt;tr&gt;&lt;td style="border:1px solid #E4E0EA;border-radius:8px;padding:16px 20px 8px;"&gt;
+    &lt;p style="margin:0 0 8px;"&gt;
+      &lt;span style="display:inline-block;background:#2E9E6B;color:#FFFFFF;font-size:11px;font-weight:bold;letter-spacing:1px;padding:3px 10px;border-radius:4px;"&gt;FIXED&lt;/span&gt;
+      &lt;span style="font-size:12px;color:#8A8494;"&gt;&amp;nbsp;&amp;nbsp;5 items&lt;/span&gt;
+    &lt;/p&gt;
+    &lt;table role="presentation" width="100%" cellpadding="0" cellspacing="0"&gt;
+      &lt;tr&gt;&lt;td style="padding:9px 2px;font-size:15px;line-height:1.6;color:#17121C;"&gt;🔒 Fixed a missing access check on gated PDFs&lt;/td&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;td style="padding:9px 2px;border-top:1px solid #EFEBF3;font-size:15px;line-height:1.6;color:#17121C;"&gt;💸 Fixed a retention payment charging without the subscription's discount&lt;/td&gt;&lt;/tr&gt;
+    &lt;/table&gt;
+  &lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="fine-label">
+    <h2 class="sec-label" id="fine-label">The fine print</h2>
+    <ol class="fine">
+      <li><p><b>This is a hand-built simulation, not a Ghost send.</b> It mirrors Ghost's email skeleton faithfully, but the deal isn't done until these blocks go into a real release post and test emails land in Gmail and Outlook.</p></li>
+      <li><p><b>The title block is Ghost's and stays where it is.</b> Fine here: the "Release X.Y: Codename" convention already does the masthead's job. The at-a-glance chips can't ride above the title — Ghost content always starts below the byline.</p></li>
+      <li><p><b>Raw HTML still sits under the hood.</b> The <a href="generator.html">generator</a> writes it from form fields, so in normal use nobody edits tables by hand and the markup is valid every time. Anyone who does hand-edit an HTML card can still break it silently — one deleted <code>&lt;/table&gt;</code> scrambles the layout with no warning before send. House rule: content changes go through the generator, and any hand-edit earns a test email.</p></li>
+      <li><p><b>Email clients get a vote.</b> Outlook on Windows squares off every rounded corner and ignores the left accent border's radius. Gmail clips messages over ~100KB — a sixteen-fix release with three blocks sits nowhere near that, but the generator meters it anyway. Gmail's dark mode recolors the chip backgrounds on its own terms; the palette was picked to keep contrast when it does.</p></li>
+      <li><p><b>The changelog post is also the web changelog.</b> These blocks render fine on the web too, but they'll look like the email, not like the theme. If that drift bothers anyone, set each HTML card to email-only visibility and keep the native lists for web — the cost is maintaining both.</p></li>
+      <li><p><b>Emoji are content, not markup.</b> The generator preserves whatever emoji leads each line and never adds its own. Keep writing them — they're doing the visual work bullets used to do.</p></li>
+      <li><p><b>Ceiling, stated plainly:</b> this approach lands chips, callout cards, and ruled boxes inside Ghost's own email frame. It does not land custom fonts, a redesigned title block, or layout outside the 600px column. If that ever becomes the ask, the answer changes from snippets to a custom email pipeline, which is a much bigger conversation.</p></li>
+    </ol>
+  </section>
+
+  <p class="endnote"><b>Built from outpost.pub's own accent tokens</b> — Outpost purple #8340B9 (dark-mode #AE6EE1), secondary pink #E052A5 — with real content from Release 3.17. Sensible next step: paste the three blocks into a draft release post on outpost.pub and send one real test email. The <a href="generator.html">snippet generator</a> writes these blocks from form fields so nobody edits HTML by hand.</p>
+
+</div>
+
+<script>
+document.querySelectorAll('.copy-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var pre = btn.parentElement.querySelector('pre');
+    var text = pre.textContent;
+    navigator.clipboard.writeText(text).then(function(){
+      btn.textContent = 'Copied';
+      btn.classList.add('done');
+      setTimeout(function(){ btn.textContent = 'Copy'; btn.classList.remove('done'); }, 1600);
+    });
+  });
+});
+</script>
+
+</body>
+</html>

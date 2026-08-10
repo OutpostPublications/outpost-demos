@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>The Changelog snippet generator</title>
+</head>
+<body>
+<style>
+
+:root{
+  --ground:#FAF9FB;
+  --surface:#FFFFFF;
+  --field:#F1EDF5;
+  --ink:#17121C;
+  --muted:#6C6478;
+  --line:#E2DDE8;
+  --accent:#8340B9;
+  --accent-ink:#FFFFFF;
+  --pine:#3B2452;
+  --pine-ink:#FAF9FB;
+  --danger:#CD3824;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --ground:#14101A;
+    --surface:#1D1726;
+    --field:#181221;
+    --ink:#EBE6F2;
+    --muted:#A398B2;
+    --line:#322A40;
+    --accent:#AE6EE1;
+    --accent-ink:#1B0E27;
+    --pine:#4A2F66;
+    --pine-ink:#EBE6F2;
+    --danger:#F07B6B;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#14101A;
+  --surface:#1D1726;
+  --field:#181221;
+  --ink:#EBE6F2;
+  --muted:#A398B2;
+  --line:#322A40;
+  --accent:#AE6EE1;
+  --accent-ink:#1B0E27;
+  --pine:#4A2F66;
+  --pine-ink:#EBE6F2;
+  --danger:#F07B6B;
+}
+:root[data-theme="light"]{
+  --ground:#FAF9FB;
+  --surface:#FFFFFF;
+  --field:#F1EDF5;
+  --ink:#17121C;
+  --muted:#6C6478;
+  --line:#E2DDE8;
+  --accent:#8340B9;
+  --accent-ink:#FFFFFF;
+  --pine:#3B2452;
+  --pine-ink:#FAF9FB;
+  --danger:#CD3824;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--ground);color:var(--ink);
+  font-family:system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15.5px;line-height:1.6;
+}
+.wrap{max-width:1240px;margin:0 auto;padding:40px 20px 90px}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+button{font-family:inherit}
+
+/* ---------- header ---------- */
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+.eyebrow b{color:var(--ink);font-weight:500}
+h1{font-weight:500;font-size:clamp(26px,4vw,36px);line-height:1.1;letter-spacing:-0.02em;margin:0 0 12px;text-wrap:balance}
+h1 em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400}
+.lede{max-width:66ch;margin:0;color:var(--muted);font-size:15px}
+.lede b{color:var(--ink);font-weight:500}
+.lede a{text-underline-offset:2px}
+
+/* ---------- toolbar ---------- */
+.toolbar{
+  position:sticky;top:0;z-index:30;
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  background:var(--ground);
+  padding:14px 0;margin:26px 0 30px;border-bottom:1px solid var(--line);
+}
+.btn{
+  border:0;border-radius:7px;cursor:pointer;
+  font-size:13.5px;font-weight:500;letter-spacing:.02em;
+  padding:10px 18px;transition:filter .12s;
+}
+@media (prefers-reduced-motion: reduce){ .btn{transition:none} }
+.btn-primary{background:var(--pine);color:var(--pine-ink)}
+.btn-primary:hover{filter:brightness(1.2)}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.btn-ghost:hover{color:var(--ink)}
+.btn.copied{background:var(--accent);color:var(--accent-ink)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.meter{font-size:13px;color:var(--muted);margin-left:auto}
+.meter b{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
+.sr-status{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ---------- layout ---------- */
+.cols{display:grid;grid-template-columns:minmax(380px,470px) 1fr;gap:38px;align-items:start}
+@media (max-width:960px){ .cols{grid-template-columns:1fr} }
+
+/* ---------- form ---------- */
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  padding:20px 22px 22px;margin:0 0 22px;
+}
+.card-head{display:flex;align-items:baseline;gap:12px;margin:0 0 4px}
+.card-head .n{
+  font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  font-size:12px;color:var(--muted);
+}
+.card-head h2{font-size:17px;font-weight:500;margin:0;letter-spacing:-0.01em}
+.card-head .copy-sec{margin-left:auto}
+.btn-mini{
+  border:1px solid var(--line);background:transparent;color:var(--muted);
+  border-radius:6px;font-size:12px;font-weight:500;letter-spacing:.04em;
+  padding:5px 12px;cursor:pointer;
+}
+.btn-mini:hover{color:var(--ink)}
+.btn-mini.copied{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.hint{margin:0 0 14px;font-size:13px;color:var(--muted)}
+.hint b{color:var(--ink);font-weight:500}
+label{display:block;font-size:12.5px;font-weight:500;letter-spacing:.03em;color:var(--muted);margin:12px 0 5px}
+input[type=text],input[type=url],textarea{
+  width:100%;border:1px solid var(--line);border-radius:7px;
+  background:var(--ground);color:var(--ink);
+  font:inherit;font-size:14.5px;line-height:1.55;
+  padding:9px 12px;
+}
+input::placeholder,textarea::placeholder{color:var(--muted);opacity:.7}
+textarea{min-height:74px;resize:vertical}
+.box-group{border:1px solid var(--line);border-radius:8px;padding:4px 14px 14px;margin:12px 0 0;position:relative}
+.hl{border:1px solid var(--line);border-radius:8px;padding:4px 14px 14px;margin:12px 0 0;position:relative}
+.hl-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+select{
+  width:100%;border:1px solid var(--line);border-radius:7px;
+  background:var(--ground);color:var(--ink);font:inherit;font-size:14.5px;
+  padding:9px 10px;
+}
+.rm{
+  position:absolute;top:10px;right:12px;
+  background:none;border:0;color:var(--muted);font-size:12.5px;cursor:pointer;
+  text-decoration:underline;text-underline-offset:2px;padding:2px 4px;
+}
+.rm:hover{color:var(--danger)}
+.add-row{margin:14px 0 0}
+
+/* ---------- preview ---------- */
+.preview-col{position:sticky;top:76px}
+@media (max-width:960px){ .preview-col{position:static} }
+.preview-head{display:flex;align-items:baseline;gap:10px;margin:0 0 10px}
+.preview-head h2{font-size:13px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
+.preview-head span{font-size:12.5px;color:var(--muted)}
+.preview-frame{
+  background:var(--field);border:1px solid var(--line);border-radius:10px;
+  padding:clamp(12px,2.5vw,30px);
+  max-height:calc(100vh - 140px);overflow:auto;
+}
+@media (max-width:960px){ .preview-frame{max-height:none} }
+.email-paper{
+  max-width:600px;margin:0 auto;background:#FFFFFF;border-radius:4px;
+  box-shadow:0 1px 3px rgba(23,18,28,.10),0 8px 32px rgba(23,18,28,.08);
+  padding:30px 34px;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  color:#17121C;
+}
+.email-paper .ghost-note{
+  font-size:11.5px;color:#8A8494;text-align:center;
+  border:1px dashed #E2DDE8;border-radius:6px;padding:7px 10px;margin:0 0 20px;
+  font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+.email-paper .ghost-note.bottom{margin:22px 0 0}
+#preview-body :first-child{margin-top:0}
+.empty-preview{color:#8A8494;font-size:14px;text-align:center;padding:30px 0}
+
+/* ---------- footer note ---------- */
+.foot{margin:40px 0 0;font-size:13.5px;color:var(--muted);max-width:74ch}
+.foot b{color:var(--ink);font-weight:500}
+.foot code{
+  font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:12px;
+  background:var(--field);border:1px solid var(--line);border-radius:4px;padding:1px 6px;
+  color:var(--ink);
+}
+</style>
+
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow"><b>Outpost</b> · Changelog · Ghost snippet tool</p>
+    <h1>The <em>Changelog</em> snippet generator</h1>
+    <p class="lede">Fill in the fields, copy a block, paste it into an <b>/html card</b> in the release post. The markup is machine-written every time, so nothing can be mistyped. Everything runs in this page: <b>no content is sent or stored anywhere</b> except a draft in this browser. Em dashes are replaced with commas automatically. Companion to the <a href="index.html">feasibility mockup</a>.</p>
+  </header>
+
+  <div class="toolbar">
+    <button class="btn btn-primary" id="copy-all" type="button">Copy full release</button>
+    <button class="btn btn-ghost" id="clear-draft" type="button">Clear draft</button>
+    <p class="meter" id="meter">Full release: <b>0.0 KB</b> · Gmail clips whole emails near 100 KB</p>
+    <span class="sr-status" role="status" aria-live="polite" id="copy-status"></span>
+  </div>
+
+  <div class="cols">
+    <div class="form-col">
+
+      <section class="card" aria-labelledby="sec1-h">
+        <div class="card-head">
+          <span class="n" aria-hidden="true">01</span>
+          <h2 id="sec1-h">At a glance</h2>
+          <button class="btn-mini copy-sec" data-copy="glance" type="button">Copy section</button>
+        </div>
+        <p class="hint">A row of colored count chips, <b>filled in automatically</b> from the change lists in section 03. Optionally add one italic lead line above it.</p>
+        <label for="glance-lead">Lead line (optional)</label>
+        <input type="text" id="glance-lead" data-bind="glance.lead">
+      </section>
+
+      <section class="card" aria-labelledby="sec2-h">
+        <div class="card-head">
+          <span class="n" aria-hidden="true">02</span>
+          <h2 id="sec2-h">Highlights</h2>
+          <button class="btn-mini copy-sec" data-copy="highlights" type="button">Copy section</button>
+        </div>
+        <p class="hint">One card per headline feature. Start the title with an emoji; link and image are optional and stay out of the email when empty.</p>
+        <label for="hl-header">Section header</label>
+        <input type="text" id="hl-header" data-bind="highlights.header">
+        <div id="hl-items"></div>
+        <div class="add-row"><button class="btn-mini" id="add-hl" type="button">+ Add highlight</button></div>
+      </section>
+
+      <section class="card" aria-labelledby="sec3-h">
+        <div class="card-head">
+          <span class="n" aria-hidden="true">03</span>
+          <h2 id="sec3-h">Change lists</h2>
+          <button class="btn-mini copy-sec" data-copy="changes" type="button">Copy section</button>
+        </div>
+        <p class="hint">One box per category, one item per line, emoji first, exactly like the changelog reads today. Empty boxes stay out of the email.</p>
+        <div id="chg-boxes"></div>
+        <div class="add-row"><button class="btn-mini" id="add-chg" type="button">+ Add category</button></div>
+      </section>
+
+    </div>
+
+    <div class="preview-col">
+      <div class="preview-head">
+        <h2>Live preview</h2>
+        <span>exactly the markup you copy, on email paper</span>
+      </div>
+      <div class="preview-frame">
+        <div class="email-paper">
+          <p class="ghost-note">masthead · release title · byline · hero image · intro live above, from Ghost</p>
+          <div id="preview-body"></div>
+          <p class="ghost-note bottom">Ghost footer + unsubscribe live below</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="foot"><b>Using it in Ghost:</b> in the editor type <code>/html</code>, paste, and click away; the card previews right in the editor. The changelog post is both the web page and the email, and these blocks render fine in both; if you'd rather keep the web changelog on native lists, set the card's visibility to email only and keep a native copy for web. House rules enforced here: no em dashes, brand hex values baked in (Outpost purple <code>#8340B9</code>, category chip colors listed in the <a href="index.html">mockup</a>). This is a proof of concept; the same single file can move to any static host later, unchanged.</p>
+
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  var STORE_KEY = 'outpost-changelog-generator-draft-v1';
+
+  var CATS = {
+    'Added':    { bg:'#8340B9', ink:'#FFFFFF' },
+    'Improved': { bg:'#E052A5', ink:'#FFFFFF' },
+    'Changed':  { bg:'#F2A33C', ink:'#33230A' },
+    'Fixed':    { bg:'#2E9E6B', ink:'#FFFFFF' },
+    'Removed':  { bg:'#CD3824', ink:'#FFFFFF' },
+    'Security': { bg:'#1F2937', ink:'#FFFFFF' }
+  };
+  var CAT_NAMES = Object.keys(CATS);
+
+  var DEFAULTS = {
+    glance: { lead: 'The CTA editor got a big refresh, plus a pile of obscure bug fixes.' },
+    highlights: {
+      header: 'Highlights',
+      items: [
+        {
+          title: '✨ The CTA editor, refreshed',
+          blurb: 'The editor you use to create CTAs like popups got a big refresh, with all new scaffolding underneath. Name your CTAs, get warned when one is pointed at the wrong audience, and watch the live preview keep up.',
+          linkLabel: 'Read the full release notes',
+          linkUrl: 'https://outpost.pub/changelog/',
+          imageUrl: ''
+        },
+        {
+          title: '♿ Assistive tech, first class',
+          blurb: 'The Tip Jar and all of the Outpost CTA editors now work well for folks using assistive technology.',
+          linkLabel: '', linkUrl: '', imageUrl: ''
+        }
+      ]
+    },
+    changes: {
+      boxes: [
+        { cat: 'Added', lines: '🎯 Affinity filtering in the CTA picker\n🎁 New email templates for repeat-gift subscriptions\n👁️ Ghost editor previews now render the previewed reader level’s CTA\n⚠️ Segment warnings when a CTA isn’t appropriate for its audience' },
+        { cat: 'Changed', lines: '📄 Events editor is now a full page instead of a row expander\n💳 Disabled Stripe Managed Payments on every Checkout Session\n💬 Stats and emails now say “clicked a link in email” so statistics are clearer' },
+        { cat: 'Fixed', lines: '🔒 Fixed a missing access check on gated PDFs\n💸 Fixed a retention payment charging without the subscription’s discount\n🔗 Fixed bold formatting stripping hyperlinks out in the email editor\n📬 Fixed autoresponder exclusions skipping complimentary members\n⏱️ Fixed TimePeriod unit conversion silently rewriting action delays (math is hard)' }
+      ]
+    }
+  };
+
+  var state = load();
+
+  function load(){
+    try{
+      var raw = localStorage.getItem(STORE_KEY);
+      if(raw){ return JSON.parse(raw); }
+    }catch(e){}
+    return JSON.parse(JSON.stringify(DEFAULTS));
+  }
+  function save(){
+    try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){}
+  }
+
+  /* ---------- text pipeline ---------- */
+  function noEmDash(s){
+    return String(s || '')
+      .replace(/\s*—\s*/g, ', ')   /* em dash -> comma */
+      .replace(/^,\s*/,'').replace(/,\s*$/,'');
+  }
+  function esc(s){
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function clean(s){ return esc(noEmDash(s).trim()); }
+  function lines(raw){
+    return String(raw || '').split('\n').map(function(l){ return l.trim(); }).filter(Boolean);
+  }
+
+  var FONT = 'font-family:Helvetica,Arial,sans-serif;';
+  var TXT  = FONT + 'font-size:15px;line-height:1.6;color:#17121C;';
+
+  /* ---------- generators (the canonical markup) ---------- */
+  function chip(label, cat){
+    var c = CATS[cat] || CATS.Added;
+    return '<span style="display:inline-block;background:' + c.bg + ';color:' + c.ink + ';' + FONT + 'font-size:11px;font-weight:bold;letter-spacing:1px;padding:3px 10px;border-radius:4px;">' + label + '</span>';
+  }
+  function sectionHeader(text){
+    return '<h2 style="text-align:center;' + FONT + 'font-size:22px;margin:14px 0 18px;color:#17121C;">' + clean(text) + '</h2>';
+  }
+  function spacerRow(){
+    return '  <tr><td style="height:12px;line-height:12px;font-size:0;">&nbsp;</td></tr>';
+  }
+
+  function genGlance(){
+    var boxes = state.changes.boxes.filter(function(b){ return lines(b.lines).length; });
+    var lead = state.glance.lead.trim();
+    if(!boxes.length && !lead){ return ''; }
+    var out = [];
+    if(lead){
+      out.push('<p style="text-align:center;' + FONT + 'font-size:15.5px;font-style:italic;color:#6E6680;margin:0 0 ' + (boxes.length ? '12px' : '0') + ';">' + clean(lead) + '</p>');
+    }
+    if(boxes.length){
+      var chips = boxes.map(function(b){
+        var n = lines(b.lines).length;
+        return chip(n + ' ' + esc(b.cat.toUpperCase()), b.cat);
+      });
+      out.push(
+        '<table role="presentation" width="100%" cellpadding="0" cellspacing="0">\n' +
+        '  <tr><td align="center" style="padding:2px 0 4px;">' + chips.join('&nbsp;&nbsp;') + '</td></tr>\n' +
+        '</table>'
+      );
+    }
+    return out.join('\n');
+  }
+
+  function genHighlights(){
+    var items = state.highlights.items.filter(function(h){ return h.title.trim() || h.blurb.trim(); });
+    if(!items.length){ return ''; }
+    var rows = [];
+    items.forEach(function(h, i){
+      var inner = '';
+      if(h.imageUrl.trim()){
+        inner += '    <img src="' + esc(h.imageUrl.trim()) + '" width="100%" alt="" style="display:block;width:100%;height:auto;border-radius:6px;margin:0 0 14px;">\n';
+      }
+      if(h.title.trim()){
+        inner += '    <p style="margin:0 0 6px;' + FONT + 'font-size:17px;font-weight:bold;color:#17121C;">' + clean(h.title) + '</p>\n';
+      }
+      if(h.blurb.trim()){
+        inner += '    <p style="margin:0;' + TXT + '">' + clean(h.blurb) + '</p>\n';
+      }
+      if(h.linkLabel.trim() && h.linkUrl.trim()){
+        inner += '    <p style="margin:10px 0 0;"><a href="' + esc(h.linkUrl.trim()) + '" style="' + FONT + 'font-size:14px;font-weight:bold;color:#8340B9;">' + clean(h.linkLabel) + ' &#8594;</a></p>\n';
+      }
+      rows.push(
+        '  <tr><td style="border:1px solid #E4E0EA;border-left:4px solid #8340B9;border-radius:8px;padding:18px 20px;">\n' +
+        inner +
+        '  </td></tr>'
+      );
+      if(i < items.length - 1){ rows.push(spacerRow()); }
+    });
+    var head = state.highlights.header.trim() ? sectionHeader(state.highlights.header) + '\n\n' : '';
+    return head + '<table role="presentation" width="100%" cellpadding="0" cellspacing="0">\n' + rows.join('\n') + '\n</table>';
+  }
+
+  function genChanges(){
+    var boxes = state.changes.boxes.filter(function(b){ return lines(b.lines).length; });
+    if(!boxes.length){ return ''; }
+    var rows = [];
+    boxes.forEach(function(b, i){
+      var items = lines(b.lines).map(function(l, j){
+        var rule = j === 0 ? '' : 'border-top:1px solid #EFEBF3;';
+        return '      <tr><td style="padding:9px 2px;' + rule + TXT + '">' + clean(l) + '</td></tr>';
+      }).join('\n');
+      rows.push(
+        '  <tr><td style="border:1px solid #E4E0EA;border-radius:8px;padding:16px 20px 8px;">\n' +
+        '    <p style="margin:0 0 8px;">' + chip(esc(b.cat.toUpperCase()), b.cat) +
+        '<span style="' + FONT + 'font-size:12px;color:#8A8494;">&nbsp;&nbsp;' + lines(b.lines).length + ' items</span></p>\n' +
+        '    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">\n' + items + '\n    </table>\n' +
+        '  </td></tr>'
+      );
+      if(i < boxes.length - 1){ rows.push(spacerRow()); }
+    });
+    return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0">\n' + rows.join('\n') + '\n</table>';
+  }
+
+  function genAll(){
+    return [genGlance(), genHighlights(), genChanges()].filter(Boolean).join('\n\n');
+  }
+  var GEN = { glance: genGlance, highlights: genHighlights, changes: genChanges };
+
+  /* ---------- form rendering ---------- */
+  var hlEl = document.getElementById('hl-items');
+  var chgEl = document.getElementById('chg-boxes');
+
+  function renderHighlights(){
+    hlEl.innerHTML = '';
+    state.highlights.items.forEach(function(h, i){
+      var wrap = document.createElement('div');
+      wrap.className = 'hl';
+      wrap.innerHTML =
+        (state.highlights.items.length > 1 ? '<button class="rm" type="button" data-rm-hl="' + i + '">remove</button>' : '') +
+        '<label for="hl-t-' + i + '">Title</label>' +
+        '<input type="text" id="hl-t-' + i + '" data-hl-idx="' + i + '" data-field="title" placeholder="&#10024; The big thing">' +
+        '<label for="hl-b-' + i + '">Blurb</label>' +
+        '<textarea id="hl-b-' + i + '" rows="3" data-hl-idx="' + i + '" data-field="blurb" placeholder="What shipped and why it matters"></textarea>' +
+        '<label for="hl-ll-' + i + '">Link label · link URL (optional)</label>' +
+        '<div class="hl-row2">' +
+          '<input type="text" id="hl-ll-' + i + '" data-hl-idx="' + i + '" data-field="linkLabel" placeholder="Read the docs" aria-label="Link label">' +
+          '<input type="url" id="hl-lu-' + i + '" data-hl-idx="' + i + '" data-field="linkUrl" placeholder="https://&#8230;" aria-label="Link URL">' +
+        '</div>' +
+        '<label for="hl-im-' + i + '">Image URL (optional)</label>' +
+        '<input type="url" id="hl-im-' + i + '" data-hl-idx="' + i + '" data-field="imageUrl" placeholder="https://outpost.pub/content/images/&#8230;">';
+      hlEl.appendChild(wrap);
+      wrap.querySelector('[data-field="title"]').value = h.title;
+      wrap.querySelector('[data-field="blurb"]').value = h.blurb;
+      wrap.querySelector('[data-field="linkLabel"]').value = h.linkLabel;
+      wrap.querySelector('[data-field="linkUrl"]').value = h.linkUrl;
+      wrap.querySelector('[data-field="imageUrl"]').value = h.imageUrl;
+    });
+  }
+
+  function renderChanges(){
+    chgEl.innerHTML = '';
+    state.changes.boxes.forEach(function(b, i){
+      var wrap = document.createElement('div');
+      wrap.className = 'box-group';
+      var opts = CAT_NAMES.map(function(c){ return '<option>' + c + '</option>'; }).join('');
+      wrap.innerHTML =
+        (state.changes.boxes.length > 1 ? '<button class="rm" type="button" data-rm-chg="' + i + '">remove</button>' : '') +
+        '<label for="cb-c-' + i + '">Category</label>' +
+        '<select id="cb-c-' + i + '" data-chg-idx="' + i + '" data-field="cat">' + opts + '</select>' +
+        '<label for="cb-l-' + i + '">Items</label>' +
+        '<textarea id="cb-l-' + i + '" rows="5" data-chg-idx="' + i + '" data-field="lines" placeholder="One item per line, emoji first"></textarea>';
+      chgEl.appendChild(wrap);
+      wrap.querySelector('select').value = b.cat;
+      wrap.querySelector('textarea').value = b.lines;
+    });
+  }
+
+  function bindStatics(){
+    document.querySelectorAll('[data-bind]').forEach(function(el){
+      var path = el.getAttribute('data-bind').split('.');
+      el.value = state[path[0]][path[1]];
+    });
+  }
+
+  /* ---------- preview + meter ---------- */
+  var previewEl = document.getElementById('preview-body');
+  var meterEl = document.getElementById('meter');
+
+  function refresh(){
+    var html = genAll();
+    if(html){
+      previewEl.innerHTML = html;
+    } else {
+      previewEl.innerHTML = '<p class="empty-preview">Nothing yet. Fill in a section on the left.</p>';
+    }
+    var kb = (new Blob([html]).size / 1024);
+    meterEl.innerHTML = 'Full release: <b>' + kb.toFixed(1) + ' KB</b> · Gmail clips whole emails near 100 KB';
+    save();
+  }
+
+  /* ---------- events ---------- */
+  document.addEventListener('input', function(e){
+    var el = e.target;
+    if(el.hasAttribute('data-bind')){
+      var p = el.getAttribute('data-bind').split('.');
+      state[p[0]][p[1]] = el.value;
+    } else if(el.hasAttribute('data-hl-idx')){
+      state.highlights.items[+el.getAttribute('data-hl-idx')][el.getAttribute('data-field')] = el.value;
+    } else if(el.hasAttribute('data-chg-idx')){
+      state.changes.boxes[+el.getAttribute('data-chg-idx')][el.getAttribute('data-field')] = el.value;
+    } else {
+      return;
+    }
+    refresh();
+  });
+  /* selects fire change, not input */
+  document.addEventListener('change', function(e){
+    var el = e.target;
+    if(el.tagName === 'SELECT' && el.hasAttribute('data-chg-idx')){
+      state.changes.boxes[+el.getAttribute('data-chg-idx')][el.getAttribute('data-field')] = el.value;
+      refresh();
+    }
+  });
+
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    if(t.id === 'add-hl'){
+      state.highlights.items.push({ title:'', blurb:'', linkLabel:'', linkUrl:'', imageUrl:'' });
+      renderHighlights(); refresh();
+      var last = hlEl.querySelector('.hl:last-child input[data-field="title"]');
+      if(last){ last.focus(); }
+      return;
+    }
+    if(t.hasAttribute('data-rm-hl')){
+      state.highlights.items.splice(+t.getAttribute('data-rm-hl'), 1);
+      renderHighlights(); refresh();
+      return;
+    }
+    if(t.id === 'add-chg'){
+      var used = state.changes.boxes.map(function(b){ return b.cat; });
+      var next = CAT_NAMES.filter(function(c){ return used.indexOf(c) === -1; })[0] || 'Added';
+      state.changes.boxes.push({ cat: next, lines:'' });
+      renderChanges(); refresh();
+      var lastBox = chgEl.querySelector('.box-group:last-child textarea');
+      if(lastBox){ lastBox.focus(); }
+      return;
+    }
+    if(t.hasAttribute('data-rm-chg')){
+      state.changes.boxes.splice(+t.getAttribute('data-rm-chg'), 1);
+      renderChanges(); refresh();
+      return;
+    }
+    if(t.hasAttribute('data-copy')){
+      copyText(GEN[t.getAttribute('data-copy')](), t, 'Copied');
+      return;
+    }
+    if(t.id === 'copy-all'){
+      copyText(genAll(), t, 'Copied full release');
+      return;
+    }
+    if(t.id === 'clear-draft'){
+      if(t.getAttribute('data-armed')){
+        state = JSON.parse(JSON.stringify(DEFAULTS));
+        state.glance.lead = '';
+        state.highlights.items = [{ title:'', blurb:'', linkLabel:'', linkUrl:'', imageUrl:'' }];
+        state.changes.boxes.forEach(function(b){ b.lines=''; });
+        try{ localStorage.removeItem(STORE_KEY); }catch(err){}
+        bindStatics(); renderHighlights(); renderChanges(); refresh();
+        t.removeAttribute('data-armed'); t.textContent = 'Clear draft';
+      } else {
+        t.setAttribute('data-armed','1'); t.textContent = 'Really clear?';
+        setTimeout(function(){ t.removeAttribute('data-armed'); t.textContent = 'Clear draft'; }, 2600);
+      }
+      return;
+    }
+  });
+
+  var statusEl = document.getElementById('copy-status');
+  function copyText(text, btn, doneLabel){
+    if(!text){ return; }
+    navigator.clipboard.writeText(text).then(function(){
+      var orig = btn.textContent;
+      btn.textContent = doneLabel; btn.classList.add('copied');
+      statusEl.textContent = doneLabel;
+      setTimeout(function(){
+        btn.textContent = orig; btn.classList.remove('copied'); statusEl.textContent = '';
+      }, 1600);
+    });
+  }
+
+  /* ---------- init ---------- */
+  bindStatics();
+  renderHighlights();
+  renderChanges();
+  refresh();
+})();
+</script>
+
+</body>
+</html>
