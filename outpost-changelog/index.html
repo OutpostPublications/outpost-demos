@@ -459,16 +459,16 @@ h1.display em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font
     <h2 class="sec-label" id="kit-label">The snippet kit</h2>
     <p class="sec-note">Email-safe HTML: tables and inline styles only, brand hex values baked in. These are the exact blocks the simulation above renders, and exactly what the <a href="generator.html">generator</a> writes from its form fields, shown here so the approach is inspectable. Category chip palette: <b>Added</b> #8340B9 · <b>Improved</b> #E052A5 · <b>Changed</b> #F2A33C · <b>Fixed</b> #2E9E6B · <b>Removed</b> #CD3824 · <b>Security</b> #1F2937; white ink on Added, Removed, and Security, dark ink on the lighter three, so every chip passes AA contrast at chip size.</p>
 
-    <div class="install"><b>Per release:</b> fill out the <a href="generator.html">generator</a>, hit copy, then in the Ghost editor type <code>/html</code> and paste; click away and the card previews right in the editor. Fallback without the generator: save any block below as a Ghost snippet (<code>⋮</code> menu → <b>Create snippet</b>) and edit its text carefully. The changelog post doubles as the web page; the blocks render fine there too, or set the card's visibility to <b>email only</b> and keep native lists for web.</div>
+    <div class="install"><b>Per release:</b> fill out the <a href="generator.html">generator</a>, hit copy, then in the Ghost editor type <code>/html</code> and paste; click away and the card previews right in the editor. Fallback without the generator: save any block below as a Ghost snippet (<code>⋮</code> menu → <b>Create snippet</b>) and edit its text carefully. The changelog post doubles as the web page, including the dark theme: boxed blocks carry a white background and unboxed text inherits the theme color, so the same card works in both places.</div>
 
     <div class="snip">
       <h3><span class="tag">A</span>At a glance</h3>
       <p class="use">Optional italic lead line, then one chip per category with its count. <b>In the generator these counts fill themselves in</b> from the change lists, so don't hand-edit the numbers.</p>
       <div class="codeblock">
         <button class="copy-btn" type="button">Copy</button>
-        <pre>&lt;p style="text-align:center;font-family:Helvetica,Arial,sans-serif;font-size:15.5px;font-style:italic;color:#6E6680;word-break:break-word;margin:0 0 12px;"&gt;The CTA editor got a big refresh, plus a pile of obscure bug fixes.&lt;/p&gt;
-&lt;table role="presentation" width="100%" cellpadding="0" cellspacing="0"&gt;
-  &lt;tr&gt;&lt;td align="center" style="padding:2px 0 4px;"&gt;&lt;span style="display:inline-block;background:#8340B9;color:#FFFFFF;font-family:Helvetica,Arial,sans-serif;font-size:11px;font-weight:bold;letter-spacing:1px;padding:3px 10px;border-radius:4px;"&gt;4 ADDED&lt;/span&gt;&amp;nbsp;&amp;nbsp;&lt;span style="display:inline-block;background:#2E9E6B;color:#04160D;font-family:Helvetica,Arial,sans-serif;font-size:11px;font-weight:bold;letter-spacing:1px;padding:3px 10px;border-radius:4px;"&gt;5 FIXED&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;
+        <pre>&lt;p style="text-align:center;font-family:Helvetica,Arial,sans-serif;font-size:15.5px;font-style:italic;word-break:break-word;margin:0 0 12px;"&gt;The CTA editor got a big refresh, plus a pile of obscure bug fixes.&lt;/p&gt;
+&lt;table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="display:table;width:100%;background:transparent;border-collapse:separate;margin:0;"&gt;
+  &lt;tr&gt;&lt;td align="center" style="text-align:center;border:0;padding:2px 0 4px;"&gt;&lt;span style="display:inline-block;background:#8340B9;color:#FFFFFF;font-family:Helvetica,Arial,sans-serif;font-size:11px;font-weight:bold;letter-spacing:1px;padding:3px 10px;border-radius:4px;"&gt;4 ADDED&lt;/span&gt;&amp;nbsp;&amp;nbsp;&lt;span style="display:inline-block;background:#2E9E6B;color:#04160D;font-family:Helvetica,Arial,sans-serif;font-size:11px;font-weight:bold;letter-spacing:1px;padding:3px 10px;border-radius:4px;"&gt;5 FIXED&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;/table&gt;</pre>
       </div>
     </div>
@@ -478,15 +478,15 @@ h1.display em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font
       <p class="use">One card per headline feature. The link paragraph and screenshot image are <b>optional rows</b>: delete them when unused.</p>
       <div class="codeblock">
         <button class="copy-btn" type="button">Copy</button>
-        <pre>&lt;h2 style="text-align:center;font-family:Helvetica,Arial,sans-serif;font-size:22px;margin:14px 0 18px;color:#17121C;"&gt;Highlights&lt;/h2&gt;
+        <pre>&lt;h2 style="text-align:center;font-family:Helvetica,Arial,sans-serif;font-size:22px;margin:14px 0 18px;"&gt;Highlights&lt;/h2&gt;
 
-&lt;table role="presentation" width="100%" cellpadding="0" cellspacing="0"&gt;
-  &lt;tr&gt;&lt;td style="border:1px solid #E4E0EA;border-left:4px solid #8340B9;border-radius:8px;padding:18px 20px;"&gt;
+&lt;table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="display:table;width:100%;background:transparent;border-collapse:separate;margin:0;"&gt;
+  &lt;tr&gt;&lt;td style="background:#FFFFFF;border:1px solid #E4E0EA;border-left:4px solid #8340B9;border-radius:8px;padding:18px 20px;"&gt;
     &lt;p style="margin:0 0 6px;font-family:Helvetica,Arial,sans-serif;font-size:17px;font-weight:bold;color:#17121C;word-break:break-word;"&gt;✨ The CTA editor, refreshed&lt;/p&gt;
     &lt;p style="margin:0;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#17121C;word-break:break-word;"&gt;Name your CTAs, get warned when one is pointed at the wrong audience, and watch the live preview keep up.&lt;/p&gt;
     &lt;p style="margin:10px 0 0;"&gt;&lt;a href="https://outpost.pub/changelog/" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:bold;color:#8340B9;"&gt;Read the full release notes &amp;#8594;&lt;/a&gt;&lt;/p&gt;
   &lt;/td&gt;&lt;/tr&gt;
-  &lt;tr&gt;&lt;td style="height:12px;line-height:12px;font-size:0;"&gt;&amp;nbsp;&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td style="border:0;height:12px;line-height:12px;font-size:0;"&gt;&amp;nbsp;&lt;/td&gt;&lt;/tr&gt;
   <span class="cm">&lt;!-- duplicate the two rows above for each extra card --&gt;</span>
 &lt;/table&gt;</pre>
       </div>
@@ -497,12 +497,12 @@ h1.display em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font
       <p class="use">One box per category. Items are the same emoji-first lines the changelog uses today; the chip color follows the palette above. Each item is a <b>whole table row</b>; the hairline sits on every row's top edge except the first.</p>
       <div class="codeblock">
         <button class="copy-btn" type="button">Copy</button>
-        <pre>&lt;table role="presentation" width="100%" cellpadding="0" cellspacing="0"&gt;
-  &lt;tr&gt;&lt;td style="border:1px solid #E4E0EA;border-radius:8px;padding:16px 20px 8px;"&gt;
+        <pre>&lt;table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="display:table;width:100%;background:transparent;border-collapse:separate;margin:0;"&gt;
+  &lt;tr&gt;&lt;td style="background:#FFFFFF;border:1px solid #E4E0EA;border-radius:8px;padding:16px 20px 8px;"&gt;
     &lt;p style="margin:0 0 8px;"&gt;&lt;span style="display:inline-block;background:#2E9E6B;color:#04160D;font-family:Helvetica,Arial,sans-serif;font-size:11px;font-weight:bold;letter-spacing:1px;padding:3px 10px;border-radius:4px;"&gt;FIXED&lt;/span&gt;&lt;span style="font-family:Helvetica,Arial,sans-serif;font-size:12px;color:#6E6680;"&gt;&amp;nbsp;&amp;nbsp;5 items&lt;/span&gt;&lt;/p&gt;
-    &lt;table role="presentation" width="100%" cellpadding="0" cellspacing="0"&gt;
-      &lt;tr&gt;&lt;td style="padding:9px 2px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#17121C;word-break:break-word;"&gt;🔒 Fixed a missing access check on gated PDFs&lt;/td&gt;&lt;/tr&gt;
-      &lt;tr&gt;&lt;td style="padding:9px 2px;border-top:1px solid #EFEBF3;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#17121C;word-break:break-word;"&gt;💸 Fixed a retention payment charging without the subscription's discount&lt;/td&gt;&lt;/tr&gt;
+    &lt;table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="display:table;width:100%;background:transparent;border-collapse:separate;margin:0;"&gt;
+      &lt;tr&gt;&lt;td style="padding:9px 2px;border:0;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#17121C;word-break:break-word;"&gt;🔒 Fixed a missing access check on gated PDFs&lt;/td&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;td style="padding:9px 2px;border:0;border-top:1px solid #EFEBF3;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#17121C;word-break:break-word;"&gt;💸 Fixed a retention payment charging without the subscription's discount&lt;/td&gt;&lt;/tr&gt;
     &lt;/table&gt;
   &lt;/td&gt;&lt;/tr&gt;
 &lt;/table&gt;</pre>
@@ -517,7 +517,7 @@ h1.display em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font
       <li><p><b>The title block is Ghost's and stays where it is.</b> Fine here: the "Release X.Y: Codename" convention already does the masthead's job. The at-a-glance chips can't ride above the title, because Ghost content always starts below the byline.</p></li>
       <li><p><b>Raw HTML still sits under the hood.</b> The <a href="generator.html">generator</a> writes it from form fields, so in normal use nobody edits tables by hand and the markup is valid every time. Anyone who does hand-edit an HTML card can still break it silently: one deleted <code>&lt;/table&gt;</code> scrambles the layout with no warning before send. House rule: content changes go through the generator, and any hand-edit earns a test email.</p></li>
       <li><p><b>Email clients get a vote.</b> Outlook on Windows squares off every rounded corner and ignores the left accent border's radius. Gmail clips messages over ~100KB; a sixteen-fix release with three blocks sits nowhere near that, but the generator meters it anyway. Gmail's dark mode recolors the chip backgrounds on its own terms; the palette was picked to keep contrast when it does.</p></li>
-      <li><p><b>The changelog post is also the web changelog.</b> These blocks render fine on the web too, but they'll look like the email, not like the theme. If that drift bothers anyone, set each HTML card to email-only visibility and keep the native lists for web; the cost is maintaining both.</p></li>
+      <li><p><b>The changelog post is also the web changelog, and the site's theme runs dark.</b> The blocks are built for that: boxed blocks bake their own white background so their dark ink always has something to sit on, and unboxed text (section headers, the lead line) bakes no color at all, inheriting dark-on-white in email and the theme's own color on the web. The cost is that on the dark site the boxes read as white cards, which is intentional, not drift. If anyone prefers the web changelog on native lists, each HTML card can be set to email-only visibility instead.</p></li>
       <li><p><b>Emoji are content, not markup.</b> The generator preserves whatever emoji leads each line and never adds its own. Keep writing them; they're doing the visual work bullets used to do.</p></li>
       <li><p><b>Ceiling, stated plainly:</b> this approach lands chips, callout cards, and ruled boxes inside Ghost's own email frame. It does not land custom fonts, a redesigned title block, or layout outside the 600px column. If that ever becomes the ask, the answer changes from snippets to a custom email pipeline, which is a much bigger conversation.</p></li>
     </ol>
